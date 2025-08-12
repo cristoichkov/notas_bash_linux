@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Cristian Cervantes">
 
-<title>Notas de Bash y Linux</title>
+<title>Redirecciones y pipes – Notas de Bash y Linux</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,26 +20,60 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapters/shell_basics.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c6cbc1d6fb8db58f958c455fce091558.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/shell_basics.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c6cbc1d6fb8db58f958c455fce091558.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -82,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">Notas de Bash y Linux</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/redirections_pipes.html"><span class="chapter-title">Redirecciones y pipes</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Notas de Bash y Linux</a> 
+      <a href="../">Notas de Bash y Linux</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -109,17 +142,17 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Notas de Bash y Linux</span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Notas de Bash y Linux</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/shell_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Terminal y sistema de archivos</span></a>
+  <a href="../chapters/shell_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Terminal y sistema de archivos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/redirections_pipes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Redirecciones y pipes</span></a>
+  <a href="../chapters/redirections_pipes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Redirecciones y pipes</span></a>
   </div>
 </li>
     </ul>
@@ -127,38 +160,21 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul class="collapse">
-  <li><a href="#bienvenido" id="toc-bienvenido" class="nav-link active" data-scroll-target="#bienvenido">Bienvenido</a>
-  <ul class="collapse">
-  <li><a href="#convenciones-del-libro" id="toc-convenciones-del-libro" class="nav-link" data-scroll-target="#convenciones-del-libro">Convenciones del libro</a></li>
-  <li><a href="#filosofía-y-buenas-prácticas" id="toc-filosofía-y-buenas-prácticas" class="nav-link" data-scroll-target="#filosofía-y-buenas-prácticas">Filosofía y buenas prácticas</a></li>
-  <li><a href="#estructura-inicial" id="toc-estructura-inicial" class="nav-link" data-scroll-target="#estructura-inicial">Estructura inicial</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Notas de Bash y Linux</h1>
+<h1 class="title"><span class="chapter-title">Redirecciones y pipes</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Cristian Cervantes </p>
-          </div>
-  </div>
     
   
     
@@ -169,46 +185,41 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="bienvenido" class="level1">
-<h1>Bienvenido</h1>
-<p>Este <strong>book de notas de Bash y Linux</strong> reúne, de forma breve y práctica, los comandos, patrones y <em>snippets</em> más útiles para trabajar en servidores y entornos de cómputo Linux. Comenzaremos con lo esencial —navegación de archivos, permisos, scripting básico— y avanzaremos hacia expresiones regulares, bucles, funciones, manejo de procesos y automatización.</p>
-<p>El objetivo es doble:</p>
-<ul>
-<li><p><strong>Manual de bolsillo</strong>: ejemplos listos para copiar/pegar y adaptar.</p></li>
-<li><p><strong>Buenas prácticas</strong>: nombres de archivos, documentación mínima, seguridad y reproducibilidad.</p></li>
-</ul>
-<p>::: callout-tip <strong>Cómo usar este libro</strong></p>
-<ul>
-<li><p>Cada sección incluye ejemplos ejecutables en Bash.</p></li>
-<li><p>Resúmenes al inicio y lista de comandos clave al final.</p></li>
-<li><p>Fragmentos marcados como <em>plantillas</em> son personalizables. :::</p></li>
-</ul>
-<section id="convenciones-del-libro" class="level2">
-<h2 class="anchored" data-anchor-id="convenciones-del-libro">Convenciones del libro</h2>
-<ul>
-<li><p><code>$</code> indica el <strong>prompt</strong> (no lo escribas).</p></li>
-<li><p><code>#</code> son comentarios explicativos.</p></li>
-<li><p>VARIABLES_EN_MAYÚSCULAS → reemplázalas por tus valores.</p></li>
-</ul>
-</section>
-<section id="filosofía-y-buenas-prácticas" class="level2">
-<h2 class="anchored" data-anchor-id="filosofía-y-buenas-prácticas">Filosofía y buenas prácticas</h2>
 <ol type="1">
-<li><p><strong>Haz una cosa y hazla bien</strong>: comandos pequeños encadenados.</p></li>
-<li><p><strong>Documenta lo justo</strong>: comenta scripts y guarda ejemplos.</p></li>
-<li><p><strong>Nombra bien</strong>: usa nombres predecibles y consistentes.</p></li>
-<li><p><strong>Reproducibilidad</strong>: fija versiones y guarda comandos.</p></li>
-<li><p><strong>Aprende leyendo</strong>: explora <code>man</code>, <code>--help</code> y ejemplos.</p></li>
+<li>Flujos estándar</li>
 </ol>
-</section>
-<section id="estructura-inicial" class="level2">
-<h2 class="anchored" data-anchor-id="estructura-inicial">Estructura inicial</h2>
-<ul>
-<li><a href="./chapters/shell_basics.html">Terminal y sistema de archivos</a></li>
-</ul>
+<p>En Linux, cada comando trabaja con tres flujos estándar:</p>
+<p>stdin (0): entrada estándar (información que recibe el comando)</p>
+<p>stdout (1): salida estándar (información normal que produce)</p>
+<p>stderr (2): salida de errores (mensajes de error)</p>
+<ol start="2" type="1">
+<li>Redirecciones de salida</li>
+</ol>
+<p>Permiten enviar la salida a un archivo o combinar salidas.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&gt;</span> salida.txt       <span class="co"># stdout a un archivo (sobrescribe)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&gt;&gt;</span> salida.txt      <span class="co"># stdout a un archivo (agrega al final)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="dv">2</span><span class="op">&gt;</span> errores.txt     <span class="co"># stderr a un archivo</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&amp;&gt;</span> todo.txt        <span class="co"># stdout y stderr al mismo archivo</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&gt;</span> salida.txt <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span>  <span class="co"># forma POSIX para combinar stdout y stderr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="ejemplo-práctico-de-21" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-práctico-de-21">Ejemplo práctico de <code>2&gt;&amp;1</code></h3>
+<p>Creamos un archivo de prueba:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"archivo de prueba"</span> <span class="op">&gt;</span> archivo1.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Sin `</strong>2&gt;&amp;1<strong>`:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> archivo1.txt archivo_que_no_existe <span class="op">&gt;</span> salida.txt</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> salida.txt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestra:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># archivo1.txt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>En la terminal verás:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ls:</span> cannot access <span class="st">'archivo_que_no_existe'</span>: No such file or directory</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Con `</strong>2&gt;&amp;1<strong>`:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> archivo1.txt archivo_que_no_existe <span class="op">&gt;</span> salida.txt <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> salida.txt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestra:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># archivo1.txt</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ls: cannot access 'archivo_que_no_existe': No such file or director</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -631,11 +642,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../chapters/shell_basics.html" class="pagination-link" aria-label="Terminal y sistema de archivos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Terminal y sistema de archivos</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/shell_basics.html" class="pagination-link" aria-label="Terminal y sistema de archivos">
-        <span class="nav-page-text"><span class="chapter-title">Terminal y sistema de archivos</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

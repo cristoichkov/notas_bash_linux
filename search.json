@@ -34,7 +34,7 @@
     "href": "index.html#estructura-inicial",
     "title": "Notas de Bash y Linux",
     "section": "Estructura inicial",
-    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes\nBúsqueda y filtrado de texto\nPermisos y usuarios\nProcesos y recursos\nCompresión y archivos\nRed y transferencia\nAutomatización con Bash\nExpresiones regulares en bioinformática\nHPC y buenas prácticas",
+    "text": "Estructura inicial\n\nTerminal y sistema de archivos",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
     ]
@@ -67,6 +67,26 @@
     "text": "Ruta absoluta\nEs la dirección completa desde la raíz del sistema.\nEjemplos (Windows):\nC:\\Usuarios\\MI_NOMBRE\\Documentos\\PROYECTO\\BIN\\script.R\nEjemplos (Linux):\n/home/usuario/Documentos/PROYECTO/BIN/script.R",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Terminal y sistema de archivos</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/shell_basics.html#ruta-relativa",
+    "href": "chapters/shell_basics.html#ruta-relativa",
+    "title": "Terminal y sistema de archivos",
+    "section": "Ruta relativa",
+    "text": "Ruta relativa\nEs la dirección desde tu ubicación actual. Si estás en /home/mi_nombre/Documentos/PROYECTO:\ncd META      # entrar a META\ncd OUT/TABLAS  # ir a tablas.csv\ncd ../DATA     # subir un nivel y entrar a DATA",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Terminal y sistema de archivos</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html",
+    "href": "chapters/redirections_pipes.html",
+    "title": "Redirecciones y pipes",
+    "section": "",
+    "text": "Flujos estándar\n\nEn Linux, cada comando trabaja con tres flujos estándar:\nstdin (0): entrada estándar (información que recibe el comando)\nstdout (1): salida estándar (información normal que produce)\nstderr (2): salida de errores (mensajes de error)\n\nRedirecciones de salida\n\nPermiten enviar la salida a un archivo o combinar salidas.\ncomando &gt; salida.txt       # stdout a un archivo (sobrescribe)\ncomando &gt;&gt; salida.txt      # stdout a un archivo (agrega al final)\ncomando 2&gt; errores.txt     # stderr a un archivo\ncomando &&gt; todo.txt        # stdout y stderr al mismo archivo\ncomando &gt; salida.txt 2&gt;&1  # forma POSIX para combinar stdout y stderr\n\nEjemplo práctico de 2&gt;&1\nCreamos un archivo de prueba:\necho \"archivo de prueba\" &gt; archivo1.txt\nSin `2&gt;&1`:\nls archivo1.txt archivo_que_no_existe &gt; salida.txt\ncat salida.txt\n# Muestra:\n# archivo1.txt\nEn la terminal verás:\nls: cannot access 'archivo_que_no_existe': No such file or directory\nCon `2&gt;&1`:\nls archivo1.txt archivo_que_no_existe &gt; salida.txt 2&gt;&1\ncat salida.txt\n# Muestra:\n# archivo1.txt\n# ls: cannot access 'archivo_que_no_existe': No such file or director",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
     ]
   }
 ]

@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../chapters/redirections_pipes.html" rel="next">
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -150,6 +151,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <a href="../chapters/shell_basics.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Terminal y sistema de archivos</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/redirections_pipes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Redirecciones y pipes</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -166,7 +172,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#sistema-de-archivos-y-rutas" id="toc-sistema-de-archivos-y-rutas" class="nav-link" data-scroll-target="#sistema-de-archivos-y-rutas">Sistema de archivos y rutas</a></li>
   <li><a href="#ruta-absoluta" id="toc-ruta-absoluta" class="nav-link" data-scroll-target="#ruta-absoluta">Ruta absoluta</a></li>
+  <li><a href="#ruta-relativa" id="toc-ruta-relativa" class="nav-link" data-scroll-target="#ruta-relativa">Ruta relativa</a></li>
   </ul></li>
+  <li><a href="#comandos-principales" id="toc-comandos-principales" class="nav-link" data-scroll-target="#comandos-principales">Comandos principales</a></li>
+  <li><a href="#ejemplos-prácticos" id="toc-ejemplos-prácticos" class="nav-link" data-scroll-target="#ejemplos-prácticos">Ejemplos prácticos</a></li>
   </ul>
 </nav>
     </div>
@@ -240,9 +249,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">C:\Usuarios\MI_NOMBRE\Documentos\PROYECTO\BIN\script.R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Ejemplos (Linux)</strong>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/usuario/Documentos/PROYECTO/BIN/script.R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-
 </section>
+<section id="ruta-relativa" class="level2">
+<h2 class="anchored" data-anchor-id="ruta-relativa">Ruta relativa</h2>
+<p>Es la dirección desde tu ubicación actual. Si estás en <code>/home/mi_nombre/Documentos/PROYECTO</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> META      <span class="co"># entrar a META</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> OUT/TABLAS  <span class="co"># ir a tablas.csv</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../DATA     <span class="co"># subir un nivel y entrar a DATA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="comandos-principales" class="level1">
+<h1>Comandos principales</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Comando</th>
+<th>Descripción</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pwd</code></td>
+<td>Muestra la ruta actual</td>
+<td><code>pwd</code> → <code>/home/usuario</code></td>
+</tr>
+<tr class="even">
+<td><code>ls</code></td>
+<td>Lista el contenido de un directorio</td>
+<td><code>ls -lh</code> (detallado, tamaños legibles)</td>
+</tr>
+<tr class="odd">
+<td><code>cd</code></td>
+<td>Cambia de directorio</td>
+<td><code>cd /home/usuario/Documentos</code></td>
+</tr>
+<tr class="even">
+<td><code>mkdir</code></td>
+<td>Crea directorios</td>
+<td><code>mkdir -p proyecto/data</code></td>
+</tr>
+<tr class="odd">
+<td><code>touch</code></td>
+<td>Crea archivos vacíos o actualiza su fecha</td>
+<td><code>touch notas.txt</code></td>
+</tr>
+<tr class="even">
+<td><code>cat</code></td>
+<td>Muestra el contenido de un archivo</td>
+<td><code>cat notas.txt</code></td>
+</tr>
+<tr class="odd">
+<td><code>head</code></td>
+<td>Muestra las primeras líneas de un archivo</td>
+<td><code>head -n 10 datos.csv</code></td>
+</tr>
+<tr class="even">
+<td><code>tail</code></td>
+<td>Muestra las últimas líneas de un archivo</td>
+<td><code>tail -n 20 log.txt</code></td>
+</tr>
+<tr class="odd">
+<td><code>less</code></td>
+<td>Muestra el archivo por páginas</td>
+<td><code>less datos.txt</code></td>
+</tr>
+<tr class="even">
+<td><code>cp</code></td>
+<td>Copia archivos o carpetas</td>
+<td><code>cp archivo.txt copia.txt</code></td>
+</tr>
+<tr class="odd">
+<td><code>mv</code></td>
+<td>Mueve o renombra archivos/carpetas</td>
+<td><code>mv viejo.txt nuevo.txt</code></td>
+</tr>
+<tr class="even">
+<td><code>rm</code></td>
+<td>Elimina archivos o carpetas</td>
+<td><code>rm -r carpeta</code></td>
+</tr>
+<tr class="odd">
+<td><code>history</code></td>
+<td>Muestra el historial de comandos</td>
+<td><code>history | grep ls</code></td>
+</tr>
+<tr class="even">
+<td><code>man</code></td>
+<td>Muestra el manual de un comando</td>
+<td><code>man ls</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ejemplos-prácticos" class="level1">
+<h1>Ejemplos prácticos</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear estructura de proyecto</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> proyecto/<span class="dt">{data</span><span class="op">,</span><span class="dt">results</span><span class="op">,</span><span class="dt">scripts</span><span class="op">,</span><span class="dt">docs}</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear varios archivos de prueba</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> proyecto/data/sample{1..3}.csv</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Listar con detalles</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-alh</span> proyecto/data</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mover y renombrar</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> proyecto/data/sample1.csv proyecto/results/sample_final.csv</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver contenido</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> proyecto/results/sample_final.csv</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar interactivamente</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-i</span> proyecto/data/sample2.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -670,6 +795,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/redirections_pipes.html" class="pagination-link" aria-label="Redirecciones y pipes">
+        <span class="nav-page-text"><span class="chapter-title">Redirecciones y pipes</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
