@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Notas de Bash y Linux",
+    "section": "",
+    "text": "Bienvenido\nEste book de notas de Bash y Linux reúne, de forma breve y práctica, los comandos, patrones y snippets más útiles para trabajar en servidores y entornos de cómputo Linux. Comenzaremos con lo esencial —navegación de archivos, permisos, scripting básico— y avanzaremos hacia expresiones regulares, bucles, funciones, manejo de procesos y automatización.\nEl objetivo es doble:\n::: callout-tip Cómo usar este libro",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#convenciones-del-libro",
+    "href": "index.html#convenciones-del-libro",
+    "title": "Notas de Bash y Linux",
+    "section": "Convenciones del libro",
+    "text": "Convenciones del libro\n\n$ indica el prompt (no lo escribas).\n# son comentarios explicativos.\nVARIABLES_EN_MAYÚSCULAS → reemplázalas por tus valores.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#filosofía-y-buenas-prácticas",
+    "href": "index.html#filosofía-y-buenas-prácticas",
+    "title": "Notas de Bash y Linux",
+    "section": "Filosofía y buenas prácticas",
+    "text": "Filosofía y buenas prácticas\n\nHaz una cosa y hazla bien: comandos pequeños encadenados.\nDocumenta lo justo: comenta scripts y guarda ejemplos.\nNombra bien: usa nombres predecibles y consistentes.\nReproducibilidad: fija versiones y guarda comandos.\nAprende leyendo: explora man, --help y ejemplos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#estructura-inicial",
+    "href": "index.html#estructura-inicial",
+    "title": "Notas de Bash y Linux",
+    "section": "Estructura inicial",
+    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes\nBúsqueda y filtrado de texto\nPermisos y usuarios\nProcesos y recursos\nCompresión y archivos\nRed y transferencia\nAutomatización con Bash\nExpresiones regulares en bioinformática\nHPC y buenas prácticas",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/shell_basics.html",
+    "href": "chapters/shell_basics.html",
+    "title": "Terminal y sistema de archivos",
+    "section": "",
+    "text": "Objetivos de aprendizaje\nAl finalizar, podrás:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Terminal y sistema de archivos</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/shell_basics.html#sistema-de-archivos-y-rutas",
+    "href": "chapters/shell_basics.html#sistema-de-archivos-y-rutas",
+    "title": "Terminal y sistema de archivos",
+    "section": "Sistema de archivos y rutas",
+    "text": "Sistema de archivos y rutas\nEl sistema de archivos tiene estructura jerárquica en forma de árbol, comenzando desde la raíz / (Linux) o desde la unidad (Windows).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Terminal y sistema de archivos</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/shell_basics.html#ruta-absoluta",
+    "href": "chapters/shell_basics.html#ruta-absoluta",
+    "title": "Terminal y sistema de archivos",
+    "section": "Ruta absoluta",
+    "text": "Ruta absoluta\nEs la dirección completa desde la raíz del sistema.\nEjemplos (Windows):\nC:\\Usuarios\\MI_NOMBRE\\Documentos\\PROYECTO\\BIN\\script.R\nEjemplos (Linux):\n/home/usuario/Documentos/PROYECTO/BIN/script.R",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Terminal y sistema de archivos</span>"
+    ]
+  }
+]
