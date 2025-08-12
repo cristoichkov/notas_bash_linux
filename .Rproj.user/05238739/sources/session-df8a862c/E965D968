@@ -1,0 +1,31 @@
+{
+    "id": "E965D968",
+    "path": "~/Documentos/stoich_page/notas_bash_linux/chapters/shell_basics.qmd",
+    "project_path": "chapters/shell_basics.qmd",
+    "type": "quarto_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1754946933228.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "rmdVisualMode": "true",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "2:87",
+        "cursorPosition": "51,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1755009678,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1755009678924,
+    "read_only": false,
+    "read_only_alternatives": []
+}

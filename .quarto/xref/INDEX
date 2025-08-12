@@ -1,0 +1,20 @@
+{
+  "index.qmd": {
+    "index.html": "5b670160"
+  },
+  "chapters/install.qmd": {
+    "install.html": "57be5982"
+  },
+  "chapters/primeros_pasos_con_contenedores.qmd": {
+    "primeros_pasos_con_contenedores.html": "40d756e4"
+  },
+  "chapters/contenedor_personalizado.qmd": {
+    "contenedor_personalizado.html": "fb0011a3"
+  },
+  "chapters/archivo_de_definicion.qmd": {
+    "archivo_de_definicion.html": "2158eacf"
+  },
+  "chapters/shell_basics.qmd": {
+    "shell_basics.html": "8fe53708"
+  }
+}

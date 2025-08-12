@@ -1,0 +1,54 @@
+---
+title: "Notas de Bash y Linux"
+---
+
+# Bienvenido
+
+Este **book de notas de Bash y Linux** reúne, de forma breve y práctica, los comandos, patrones y *snippets* más útiles para trabajar en servidores y entornos de cómputo Linux. Comenzaremos con lo esencial —navegación de archivos, permisos, scripting básico— y avanzaremos hacia expresiones regulares, bucles, funciones, manejo de procesos y automatización.
+
+El objetivo es doble:
+
+-   **Manual de bolsillo**: ejemplos listos para copiar/pegar y adaptar.
+
+-   **Buenas prácticas**: nombres de archivos, documentación mínima, seguridad y reproducibilidad.
+
+::: callout-tip **Cómo usar este libro**
+
+-   Cada sección incluye ejemplos ejecutables en Bash.
+
+-   Resúmenes al inicio y lista de comandos clave al final.
+
+-   Fragmentos marcados como *plantillas* son personalizables. :::
+
+## Convenciones del libro
+
+-   `$` indica el **prompt** (no lo escribas).
+
+-   `#` son comentarios explicativos.
+
+-   VARIABLES_EN_MAYÚSCULAS → reemplázalas por tus valores.
+
+## Filosofía y buenas prácticas
+
+1.  **Haz una cosa y hazla bien**: comandos pequeños encadenados.
+
+2.  **Documenta lo justo**: comenta scripts y guarda ejemplos.
+
+3.  **Nombra bien**: usa nombres predecibles y consistentes.
+
+4.  **Reproducibilidad**: fija versiones y guarda comandos.
+
+5.  **Aprende leyendo**: explora `man`, `--help` y ejemplos.
+
+## Estructura inicial
+
+-   [Terminal y sistema de archivos](01_shell_basics.qmd)
+-   [Redirecciones y pipes](02_redirections_pipes.qmd)
+-   [Búsqueda y filtrado de texto](03_text_tools.qmd)
+-   [Permisos y usuarios](04_permissions.qmd)
+-   [Procesos y recursos](05_processes.qmd)
+-   [Compresión y archivos](06_archives.qmd)
+-   [Red y transferencia](07_networking.qmd)
+-   [Automatización con Bash](08_bash_scripting.qmd)
+-   [Expresiones regulares en bioinformática](09_regex_bioinfo.qmd)
+-   [HPC y buenas prácticas](10_hpc.qmd)

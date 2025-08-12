@@ -1,0 +1,26 @@
+project:
+  type: book
+
+book:
+  title: "Notas de Bash y Linux"
+  author: "Cristian Cervantes"
+  chapters:
+    - index.qmd
+    - chapters/shell_basics.qmd
+
+
+format:
+  html:
+    theme: litera
+    css: styles/custom.css
+    toc: true
+    toc-depth: 2
+    number-sections: false  # Desactiva la numeración de capítulos y secciones
+
+editor: visual
+
+publish:
+  gh-pages:
+    branch: gh-pages
+    dir: _site
+
