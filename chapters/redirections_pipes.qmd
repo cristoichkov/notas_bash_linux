@@ -1,0 +1,204 @@
+---
+title: "Redirecciones y pipes"
+format: html
+---
+
+1.  Flujos estándar
+
+En Linux, cada comando trabaja con tres flujos estándar:
+
+stdin (0): entrada estándar (información que recibe el comando)
+
+stdout (1): salida estándar (información normal que produce)
+
+stderr (2): salida de errores (mensajes de error)
+
+2.  Redirecciones de salida
+
+Permiten enviar la salida a un archivo o combinar salidas.
+
+``` bash
+comando > salida.txt       # stdout a un archivo (sobrescribe)
+comando >> salida.txt      # stdout a un archivo (agrega al final)
+comando 2> errores.txt     # stderr a un archivo
+comando &> todo.txt        # stdout y stderr al mismo archivo
+comando > salida.txt 2>&1  # forma POSIX para combinar stdout y stderr
+```
+
+### Ejemplo práctico de `2>&1`
+
+Creamos un archivo de prueba:
+
+``` bash
+echo "archivo de prueba" > archivo1.txt
+```
+
+**Sin `2>&1`:**
+
+``` bash
+ls archivo1.txt archivo_que_no_existe > salida.txt
+cat salida.txt
+# Muestra:
+# archivo1.txt
+```
+
+En la terminal verás:
+
+``` bash
+ls: cannot access 'archivo_que_no_existe': No such file or directory
+```
+
+**Con** `2>&1`:\*\*
+
+``` bash
+ls archivo1.txt archivo_que_no_existe > salida.txt 2>&1
+cat salida.txt
+# Muestra:
+# archivo1.txt
+# ls: cannot access 'archivo_que_no_existe': No such file or director
+```
+
+## 3. Redirecciones de entrada
+
+Cuando un comando necesita información, puedes escribirla a mano, pero normalmente se la das desde un archivo o un bloque de texto.
+
+**Ejemplo con archivo:**
+
+``` bash
+echo -e "Carlos\nAna\nLuis" > nombres.txt
+sort < nombres.txt
+# Ana
+# Carlos
+# Luis
+```
+
+Aquí `sort` recibe los nombres como si los hubieras escrito línea por línea.
+
+### Here-string (`<<<`)
+
+Sirve para pasar una cadena corta directamente como entrada:
+
+``` bash
+tr '[:lower:]' '[:upper:]' <<< "hola mundo"
+# HOLA MUNDO
+```
+
+El comando **`tr`** en Linux significa **translate** (traducir) o **transliterate**.\
+Sirve para **reemplazar, eliminar o comprimir caracteres** en un texto que recibe por **entrada estándar (stdin)**.
+
+### Here-document (`<<`)
+
+Se usa para escribir varias líneas de entrada o incluso crear archivos:
+
+``` bash
+cat <<'EOF' > script.sh
+#!/bin/bash
+echo "Hola desde here-doc"
+EOF
+```
+
+Todo lo que escribas entre `<<EOF` y `EOF` se manda al comando `cat`. Aquí se guardó en `script.sh`.
+
+## 4. Pipes (`|`)
+
+Un *pipe* conecta la salida de un comando con la entrada de otro.
+
+Archivo de ejemplo:
+
+``` bash
+echo -e "uno\ndos\ntres" > archivo.txt
+
+cat archivo.txt | grep "dos"
+# dos
+```
+
+En este caso `cat` manda las líneas a `grep`, que filtra solo la que contiene “dos”.
+
+### Ejemplo bioinformático
+
+Un archivo FASTQ tiene 4 líneas por cada lectura. Con `paste - - - -` agrupamos esas 4 líneas en una sola y luego contamos:
+
+``` bash
+echo -e "@read1\nACGT\n+\n!!!!\n@read2\nTGCA\n+\n!!!!" | paste - - - - | wc -l
+# 2
+```
+
+### Pipefail
+
+Por defecto, el estado de salida de un pipeline es el del **último comando**. Si quieres que falle si cualquier parte falla:
+
+``` bash
+set -o pipefail
+```
+
+## 5. `tee`: ver y guardar a la vez
+
+A veces quieres guardar la salida en un archivo **pero también verla en pantalla**. Para eso está `tee`.
+
+``` bash
+echo -e "linea1\nlinea2" | tee lista.txt
+# linea1
+# linea2
+cat lista.txt
+# linea1
+# linea2
+```
+
+Para añadir sin borrar lo previo:
+
+``` bash
+echo "linea3" | tee -a lista.txt
+```
+
+## 6. Sustitución de procesos `<( )`
+
+Permite pasar la salida de un comando como si fuera un archivo.
+
+Creamos archivos:
+
+``` bash
+echo -e "a\nb\nc" > lista1.txt
+echo -e "b\nc\nd" > lista2.txt
+```
+
+Comparar intersección de dos listas:
+
+``` bash
+comm -12 <(sort lista1.txt) <(sort lista2.txt)
+# b
+# c
+```
+
+Aquí `sort lista1.txt` y `sort lista2.txt` se ejecutan y sus resultados se tratan como archivos temporales.
+
+## 7. `xargs`: construir comandos desde stdin
+
+Algunos programas no aceptan datos por stdin. `xargs` toma lo que le llega y lo convierte en argumentos de otro comando.
+
+``` bash
+echo -e "archivo1.txt\narchivo2.txt" | xargs -n1 echo Procesando
+# Procesando archivo1.txt
+# Procesando archivo2.txt
+```
+
+-   `-n1`: ejecuta el comando con un argumento a la vez.
+
+-   `-P4`: permite correr varios comandos en paralelo (ej. 4 a la vez).
+
+Ejemplo bioinformático:
+
+``` bash
+find 00_raw -name '*.fastq.gz' | xargs -n1 -P4 gzip -t
+```
+
+Esto verifica la integridad de varios archivos FASTQ en paralelo.
+
+## 8. Buenas prácticas
+
+-   Usa `set -euo pipefail` en scripts para atrapar errores.
+
+-   Prueba comandos con datos pequeños (`head`, `tail`) antes de correrlos en datos grandes.
+
+-   Evita espacios en nombres de archivos; si los hay, usa comillas.
+
+-   Separa stdout y stderr si necesitas depurar o guardar logs.

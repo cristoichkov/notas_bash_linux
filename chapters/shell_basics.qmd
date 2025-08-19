@@ -64,3 +64,54 @@ C:\Usuarios\MI_NOMBRE\Documentos\PROYECTO\BIN\script.R
 ``` bash
 /home/usuario/Documentos/PROYECTO/BIN/script.R
 ```
+
+## Ruta relativa
+
+Es la dirección desde tu ubicación actual. Si estás en `/home/mi_nombre/Documentos/PROYECTO`:
+
+``` bash
+cd META      # entrar a META
+cd OUT/TABLAS  # ir a tablas.csv
+cd ../DATA     # subir un nivel y entrar a DATA
+```
+
+# Comandos principales
+
+| Comando | Descripción | Ejemplo |
+|------------------------|------------------------|------------------------|
+| `pwd` | Muestra la ruta actual | `pwd` → `/home/usuario` |
+| `ls` | Lista el contenido de un directorio | `ls -lh` (detallado, tamaños legibles) |
+| `cd` | Cambia de directorio | `cd /home/usuario/Documentos` |
+| `mkdir` | Crea directorios | `mkdir -p proyecto/data` |
+| `touch` | Crea archivos vacíos o actualiza su fecha | `touch notas.txt` |
+| `cat` | Muestra el contenido de un archivo | `cat notas.txt` |
+| `head` | Muestra las primeras líneas de un archivo | `head -n 10 datos.csv` |
+| `tail` | Muestra las últimas líneas de un archivo | `tail -n 20 log.txt` |
+| `less` | Muestra el archivo por páginas | `less datos.txt` |
+| `cp` | Copia archivos o carpetas | `cp archivo.txt copia.txt` |
+| `mv` | Mueve o renombra archivos/carpetas | `mv viejo.txt nuevo.txt` |
+| `rm` | Elimina archivos o carpetas | `rm -r carpeta` |
+| `history` | Muestra el historial de comandos | `history | grep ls` |
+| `man` | Muestra el manual de un comando | `man ls` |
+
+# Ejemplos prácticos
+
+``` bash
+# Crear estructura de proyecto
+mkdir -p proyecto/{data,results,scripts,docs}
+
+# Crear varios archivos de prueba
+touch proyecto/data/sample{1..3}.csv
+
+# Listar con detalles
+ls -alh proyecto/data
+
+# Mover y renombrar
+mv proyecto/data/sample1.csv proyecto/results/sample_final.csv
+
+# Ver contenido
+cat proyecto/results/sample_final.csv
+
+# Eliminar interactivamente
+rm -i proyecto/data/sample2.csv
+```
