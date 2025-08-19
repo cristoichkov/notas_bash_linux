@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Redirecciones y pipes – Notas de Bash y Linux</title>
+<title>Búsqueda y filtrado de texto – Notas de Bash y Linux</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/text_tools.html" rel="next">
-<link href="../chapters/shell_basics.html" rel="prev">
+<link href="../chapters/redirections_pipes.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -116,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/redirections_pipes.html"><span class="chapter-title">Redirecciones y pipes</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/text_tools.html"><span class="chapter-title">Búsqueda y filtrado de texto</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -153,12 +152,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/redirections_pipes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Redirecciones y pipes</span></a>
+  <a href="../chapters/redirections_pipes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Redirecciones y pipes</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/text_tools.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Búsqueda y filtrado de texto</span></a>
+  <a href="../chapters/text_tools.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Búsqueda y filtrado de texto</span></a>
   </div>
 </li>
     </ul>
@@ -171,12 +170,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#redirecciones-de-entrada" id="toc-redirecciones-de-entrada" class="nav-link active" data-scroll-target="#redirecciones-de-entrada">3. Redirecciones de entrada</a></li>
-  <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes">4. Pipes (<code>|</code>)</a></li>
-  <li><a href="#tee-ver-y-guardar-a-la-vez" id="toc-tee-ver-y-guardar-a-la-vez" class="nav-link" data-scroll-target="#tee-ver-y-guardar-a-la-vez">5. <code>tee</code>: ver y guardar a la vez</a></li>
-  <li><a href="#sustitución-de-procesos" id="toc-sustitución-de-procesos" class="nav-link" data-scroll-target="#sustitución-de-procesos">6. Sustitución de procesos <code>&lt;( )</code></a></li>
-  <li><a href="#xargs-construir-comandos-desde-stdin" id="toc-xargs-construir-comandos-desde-stdin" class="nav-link" data-scroll-target="#xargs-construir-comandos-desde-stdin">7. <code>xargs</code>: construir comandos desde stdin</a></li>
-  <li><a href="#buenas-prácticas" id="toc-buenas-prácticas" class="nav-link" data-scroll-target="#buenas-prácticas">8. Buenas prácticas</a></li>
+  <li><a href="#búsqueda-y-filtrado-de-texto" id="toc-búsqueda-y-filtrado-de-texto" class="nav-link active" data-scroll-target="#búsqueda-y-filtrado-de-texto">Búsqueda y filtrado de texto</a>
+  <ul class="collapse">
+  <li><a href="#preparación-datos-de-ejemplo-reproducible" id="toc-preparación-datos-de-ejemplo-reproducible" class="nav-link" data-scroll-target="#preparación-datos-de-ejemplo-reproducible">0) Preparación: datos de ejemplo (reproducible)</a></li>
+  <li><a href="#grep-encontrar-líneas-que-coinciden-con-un-patrón" id="toc-grep-encontrar-líneas-que-coinciden-con-un-patrón" class="nav-link" data-scroll-target="#grep-encontrar-líneas-que-coinciden-con-un-patrón">1) grep: encontrar líneas que coinciden con un patrón</a></li>
+  <li><a href="#sed-filtrar-y-sustituir-texto-en-flujo" id="toc-sed-filtrar-y-sustituir-texto-en-flujo" class="nav-link" data-scroll-target="#sed-filtrar-y-sustituir-texto-en-flujo">2) sed: filtrar y sustituir texto en flujo</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -185,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Redirecciones y pipes</span></h1>
+<h1 class="title"><span class="chapter-title">Búsqueda y filtrado de texto</span></h1>
 </div>
 
 
@@ -202,137 +201,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<ol type="1">
-<li>Flujos estándar</li>
-</ol>
-<p>En Linux, cada comando trabaja con tres flujos estándar:</p>
-<p>stdin (0): entrada estándar (información que recibe el comando)</p>
-<p>stdout (1): salida estándar (información normal que produce)</p>
-<p>stderr (2): salida de errores (mensajes de error)</p>
-<ol start="2" type="1">
-<li>Redirecciones de salida</li>
-</ol>
-<p>Permiten enviar la salida a un archivo o combinar salidas.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&gt;</span> salida.txt       <span class="co"># stdout a un archivo (sobrescribe)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&gt;&gt;</span> salida.txt      <span class="co"># stdout a un archivo (agrega al final)</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="dv">2</span><span class="op">&gt;</span> errores.txt     <span class="co"># stderr a un archivo</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&amp;&gt;</span> todo.txt        <span class="co"># stdout y stderr al mismo archivo</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">comando</span> <span class="op">&gt;</span> salida.txt <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span>  <span class="co"># forma POSIX para combinar stdout y stderr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="ejemplo-práctico-de-21" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-práctico-de-21">Ejemplo práctico de <code>2&gt;&amp;1</code></h3>
-<p>Creamos un archivo de prueba:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"archivo de prueba"</span> <span class="op">&gt;</span> archivo1.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Sin <code>2&gt;&amp;1</code>:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> archivo1.txt archivo_que_no_existe <span class="op">&gt;</span> salida.txt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> salida.txt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestra:</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># archivo1.txt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>En la terminal verás:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ls:</span> cannot access <span class="st">'archivo_que_no_existe'</span>: No such file or directory</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Con</strong> <code>2&gt;&amp;1</code>:**</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> archivo1.txt archivo_que_no_existe <span class="op">&gt;</span> salida.txt <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> salida.txt</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Muestra:</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># archivo1.txt</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ls: cannot access 'archivo_que_no_existe': No such file or director</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="búsqueda-y-filtrado-de-texto" class="level1">
+<h1>Búsqueda y filtrado de texto</h1>
+<p>En Linux, la combinación de <strong>grep</strong>, <strong>sed</strong>, <strong>awk</strong>, <strong>find</strong>, <strong>xargs</strong> y utilidades como <strong>cut</strong>, <strong>sort</strong>, <strong>uniq</strong> permite localizar, transformar y resumir información de archivos de texto plano (logs, CSV, FASTA/FASTQ, etc.).<br>
+Esta sección presenta una guía práctica, con ejemplos <strong>reproducibles</strong> y casos <strong>bioinformáticos</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Recomendación</strong>: Usa un directorio de trabajo separado para no mezclar con tus datos reales.</p>
+</blockquote>
+<hr>
+<section id="preparación-datos-de-ejemplo-reproducible" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-datos-de-ejemplo-reproducible">0) Preparación: datos de ejemplo (reproducible)</h2>
+<p>Ejecuta este bloque para crear una carpeta <code>demo_text</code> con archivos de prueba:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear carpeta y entrar</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> demo_text <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> demo_text</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) FASTA pequeño</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&gt;</span> genes.fasta <span class="op">&lt;&lt;'FA'</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;geneA|Arabidopsis_thaliana</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">ATGAAACCCGGGTTTAAACCC</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;geneB|Mammillaria_haageana</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">ATGAATTTNNNCCCGGGTTTA</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;geneC|Zea_mays</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">ATGCCCGGGTTAACCGGTTAA</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">FA</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) FASTQ minimal (2 lecturas)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&gt;</span> reads.fastq <span class="op">&lt;&lt;'FQ'</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">@SEQ_ID_1</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">ACGTTTCCCGGAA</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">FFF:::FFFFF::</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">@SEQ_ID_2</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">NNNNACGTACGTN</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">!!''(((****))</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="op">FQ</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) CSV simple (expresión)</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&gt;</span> expr.csv <span class="op">&lt;&lt;'CSV'</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">gene,sample,counts</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">geneA,S1,12</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">geneA,S2,3</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">geneB,S1,0</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">geneB,S2,27</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">geneC,S1,8</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">geneC,S2,8</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="op">CSV</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># 4) Log con fechas</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&gt;</span> app.log <span class="op">&lt;&lt;'LOG'</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="st">2025-08-01 10:00:01 INFO start pipeline</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="st">2025-08-01 10:00:02 WARN low memory</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="st">2025-08-01 10:00:03 ERROR read failed on sample S1</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="st">2025-08-01 10:01:01 INFO retry sample S1</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="st">2025-08-01 10:02:10 INFO done</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="op">LOG</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="redirecciones-de-entrada" class="level2">
-<h2 class="anchored" data-anchor-id="redirecciones-de-entrada">3. Redirecciones de entrada</h2>
-<p>Cuando un comando necesita información, puedes escribirla a mano, pero normalmente se la das desde un archivo o un bloque de texto.</p>
-<p><strong>Ejemplo con archivo:</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"Carlos\nAna\nLuis"</span> <span class="op">&gt;</span> nombres.txt</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="op">&lt;</span> nombres.txt</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ana</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Carlos</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Luis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Aquí <code>sort</code> recibe los nombres como si los hubieras escrito línea por línea.</p>
-<section id="here-string" class="level3">
-<h3 class="anchored" data-anchor-id="here-string">Here-string (<code>&lt;&lt;&lt;</code>)</h3>
-<p>Sirve para pasar una cadena corta directamente como entrada:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tr</span> <span class="st">'[:lower:]'</span> <span class="st">'[:upper:]'</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">"hola mundo"</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># HOLA MUNDO</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>El comando <strong><code>tr</code></strong> en Linux significa <strong>translate</strong> (traducir) o <strong>transliterate</strong>.<br>
-Sirve para <strong>reemplazar, eliminar o comprimir caracteres</strong> en un texto que recibe por <strong>entrada estándar (stdin)</strong>.</p>
+<section id="grep-encontrar-líneas-que-coinciden-con-un-patrón" class="level2">
+<h2 class="anchored" data-anchor-id="grep-encontrar-líneas-que-coinciden-con-un-patrón">1) grep: encontrar líneas que coinciden con un patrón</h2>
+<p><strong>Sintaxis básica:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="pp">[</span><span class="ss">opciones</span><span class="pp">]</span> <span class="st">'patrón'</span> archivo<span class="er">(</span><span class="ex">s</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.1 Búsquedas simples</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Buscar "geneA" en FASTA</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">'geneA'</span> genes.fasta</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Insensible a mayúsculas/minúsculas</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-i</span> <span class="st">'zeA'</span> genes.fasta</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Solo nombre de archivo con coincidencias</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-l</span> <span class="st">'gene'</span> <span class="pp">*</span>.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.2 Mostrar contexto y número de línea</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de línea (-n) y coincidencia resaltada (--color)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">--color</span> <span class="st">'INFO'</span> app.log</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Contexto: 1 línea antes y 2 después</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-C2</span> <span class="st">'ERROR'</span> app.log</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Solo antes (-B) o solo después (-A)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-B1</span> <span class="st">'WARN'</span> app.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.3 Contar coincidencias y ver solo el match</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contar líneas que contienen 'geneA'</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">'geneA'</span> genes.fasta</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar solo la parte que coincide (-o)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">'gene[A-Z]'</span> genes.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.4 Búsqueda recursiva y exclusiones</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recursivo en subcarpetas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-R</span> <span class="st">'sample'</span> .</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Excluir rutas por patrón</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-R</span> <span class="at">--exclude</span><span class="op">=</span><span class="st">'*.fastq'</span> <span class="st">'gene'</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.5 Expresiones regulares útiles (grep -E / -P)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># grep -E (ERE): alternancia con '|'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-E</span> <span class="st">'geneA|geneB'</span> genes.fasta</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># grep -E con anclas: encabezados FASTA (líneas que empiezan por '&gt;')</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-E</span> <span class="st">'^&gt;'</span> genes.fasta</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># grep -P (PCRE) para patrones más avanzados (si tu grep lo soporta)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-Pn</span> <span class="st">'^\d{4}-\d{2}-\d{2}.*(ERROR|WARN)'</span> app.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.6 Búsqueda en .gz sin descomprimir</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># zgrep funciona como grep pero sobre .gz</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> app.log <span class="op">&gt;</span> app.log.gz</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">zgrep</span> <span class="st">'ERROR'</span> app.log.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Tip</strong>: Para búsquedas masivas y veloces, considera <strong>ripgrep</strong> (<code>rg</code>). Ejemplo: <code>rg 'ERROR' -n .</code></p>
 </section>
-<section id="here-document" class="level3">
-<h3 class="anchored" data-anchor-id="here-document">Here-document (<code>&lt;&lt;</code>)</h3>
-<p>Se usa para escribir varias líneas de entrada o incluso crear archivos:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&lt;&lt;'EOF'</span> <span class="op">&gt;</span> script.sh</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">#!/bin/bash</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">echo "Hola desde here-doc"</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Todo lo que escribas entre <code>&lt;&lt;EOF</code> y <code>EOF</code> se manda al comando <code>cat</code>. Aquí se guardó en <code>script.sh</code>.</p>
-</section>
-</section>
-<section id="pipes" class="level2">
-<h2 class="anchored" data-anchor-id="pipes">4. Pipes (<code>|</code>)</h2>
-<p>Un <em>pipe</em> conecta la salida de un comando con la entrada de otro.</p>
-<p>Archivo de ejemplo:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"uno\ndos\ntres"</span> <span class="op">&gt;</span> archivo.txt</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> archivo.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"dos"</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># dos</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>En este caso <code>cat</code> manda las líneas a <code>grep</code>, que filtra solo la que contiene “dos”.</p>
-<section id="ejemplo-bioinformático" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-bioinformático">Ejemplo bioinformático</h3>
-<p>Un archivo FASTQ tiene 4 líneas por cada lectura. Con <code>paste - - - -</code> agrupamos esas 4 líneas en una sola y luego contamos:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"@read1\nACGT\n+\n!!!!\n@read2\nTGCA\n+\n!!!!"</span> <span class="kw">|</span> <span class="fu">paste</span> <span class="at">-</span> <span class="at">-</span> <span class="at">-</span> <span class="at">-</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="pipefail" class="level3">
-<h3 class="anchored" data-anchor-id="pipefail">Pipefail</h3>
-<p>Por defecto, el estado de salida de un pipeline es el del <strong>último comando</strong>. Si quieres que falle si cualquier parte falla:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-o</span> pipefail</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="tee-ver-y-guardar-a-la-vez" class="level2">
-<h2 class="anchored" data-anchor-id="tee-ver-y-guardar-a-la-vez">5. <code>tee</code>: ver y guardar a la vez</h2>
-<p>A veces quieres guardar la salida en un archivo <strong>pero también verla en pantalla</strong>. Para eso está <code>tee</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"linea1\nlinea2"</span> <span class="kw">|</span> <span class="fu">tee</span> lista.txt</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># linea1</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># linea2</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> lista.txt</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># linea1</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># linea2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Para añadir sin borrar lo previo:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"linea3"</span> <span class="kw">|</span> <span class="fu">tee</span> <span class="at">-a</span> lista.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="sustitución-de-procesos" class="level2">
-<h2 class="anchored" data-anchor-id="sustitución-de-procesos">6. Sustitución de procesos <code>&lt;( )</code></h2>
-<p>Permite pasar la salida de un comando como si fuera un archivo.</p>
-<p>Creamos archivos:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"a\nb\nc"</span> <span class="op">&gt;</span> lista1.txt</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"b\nc\nd"</span> <span class="op">&gt;</span> lista2.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Comparar intersección de dos listas:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comm</span> <span class="at">-12</span> <span class="op">&lt;(</span><span class="fu">sort</span> lista1.txt<span class="op">)</span> <span class="op">&lt;(</span><span class="fu">sort</span> lista2.txt<span class="op">)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># b</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># c</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Aquí <code>sort lista1.txt</code> y <code>sort lista2.txt</code> se ejecutan y sus resultados se tratan como archivos temporales.</p>
-</section>
-<section id="xargs-construir-comandos-desde-stdin" class="level2">
-<h2 class="anchored" data-anchor-id="xargs-construir-comandos-desde-stdin">7. <code>xargs</code>: construir comandos desde stdin</h2>
-<p>Algunos programas no aceptan datos por stdin. <code>xargs</code> toma lo que le llega y lo convierte en argumentos de otro comando.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">"archivo1.txt\narchivo2.txt"</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-n1</span> echo Procesando</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Procesando archivo1.txt</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Procesando archivo2.txt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li><p><code>-n1</code>: ejecuta el comando con un argumento a la vez.</p></li>
-<li><p><code>-P4</code>: permite correr varios comandos en paralelo (ej. 4 a la vez).</p></li>
-</ul>
-<p>Ejemplo bioinformático:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> 00_raw <span class="at">-name</span> <span class="st">'*.fastq.gz'</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-n1</span> <span class="at">-P4</span> gzip <span class="at">-t</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Esto verifica la integridad de varios archivos FASTQ en paralelo.</p>
-</section>
-<section id="buenas-prácticas" class="level2">
-<h2 class="anchored" data-anchor-id="buenas-prácticas">8. Buenas prácticas</h2>
-<ul>
-<li><p>Usa <code>set -euo pipefail</code> en scripts para atrapar errores.</p></li>
-<li><p>Prueba comandos con datos pequeños (<code>head</code>, <code>tail</code>) antes de correrlos en datos grandes.</p></li>
-<li><p>Evita espacios en nombres de archivos; si los hay, usa comillas.</p></li>
-<li><p>Separa stdout y stderr si necesitas depurar o guardar logs.</p></li>
-</ul>
+<section id="sed-filtrar-y-sustituir-texto-en-flujo" class="level2">
+<h2 class="anchored" data-anchor-id="sed-filtrar-y-sustituir-texto-en-flujo">2) sed: filtrar y sustituir texto en flujo</h2>
+<p><code>sed</code> edita <em>streams</em> de texto: sustituye, elimina o imprime selectivamente.</p>
+<section id="sustituciones-básicas" class="level3">
+<h3 class="anchored" data-anchor-id="sustituciones-básicas">2.1 Sustituciones básicas</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cambiar 'WARN' por 'WARNING' (solo pantalla)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/WARN/WARNING/'</span> app.log</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Edición in-place con respaldo</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i.bak</span> <span class="st">'s/INFO/INFORMATION/'</span> app.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>2.2 Eliminar o conservar líneas por patrón</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar líneas que contienen 'retry'</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'/retry/d'</span> app.log</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Quedarse solo con encabezados FASTA</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">'/^&gt;/p'</span> genes.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>2.3 Cambios por columnas (CSV sencillo)</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reemplazar comas por tabs (vista rápida tipo TSV)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/,/\t/g'</span> expr.csv <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -755,14 +751,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/shell_basics.html" class="pagination-link" aria-label="Terminal y sistema de archivos">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Terminal y sistema de archivos</span></span>
+      <a href="../chapters/redirections_pipes.html" class="pagination-link" aria-label="Redirecciones y pipes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Redirecciones y pipes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/text_tools.html" class="pagination-link" aria-label="Búsqueda y filtrado de texto">
-        <span class="nav-page-text"><span class="chapter-title">Búsqueda y filtrado de texto</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

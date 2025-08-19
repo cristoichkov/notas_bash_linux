@@ -34,7 +34,7 @@
     "href": "index.html#estructura-inicial",
     "title": "Notas de Bash y Linux",
     "section": "Estructura inicial",
-    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes",
+    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes\nBúsqueda y filtrado de texto",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
     ]
@@ -147,6 +147,46 @@
     "text": "8. Buenas prácticas\n\nUsa set -euo pipefail en scripts para atrapar errores.\nPrueba comandos con datos pequeños (head, tail) antes de correrlos en datos grandes.\nEvita espacios en nombres de archivos; si los hay, usa comillas.\nSepara stdout y stderr si necesitas depurar o guardar logs.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html",
+    "href": "chapters/text_tools.html",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "",
+    "text": "Búsqueda y filtrado de texto\nEn Linux, la combinación de grep, sed, awk, find, xargs y utilidades como cut, sort, uniq permite localizar, transformar y resumir información de archivos de texto plano (logs, CSV, FASTA/FASTQ, etc.).\nEsta sección presenta una guía práctica, con ejemplos reproducibles y casos bioinformáticos.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html#preparación-datos-de-ejemplo-reproducible",
+    "href": "chapters/text_tools.html#preparación-datos-de-ejemplo-reproducible",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "0) Preparación: datos de ejemplo (reproducible)",
+    "text": "0) Preparación: datos de ejemplo (reproducible)\nEjecuta este bloque para crear una carpeta demo_text con archivos de prueba:\n# Crear carpeta y entrar\nmkdir -p demo_text && cd demo_text\n\n# 1) FASTA pequeño\ncat &gt; genes.fasta &lt;&lt;'FA'\n&gt;geneA|Arabidopsis_thaliana\nATGAAACCCGGGTTTAAACCC\n&gt;geneB|Mammillaria_haageana\nATGAATTTNNNCCCGGGTTTA\n&gt;geneC|Zea_mays\nATGCCCGGGTTAACCGGTTAA\nFA\n\n# 2) FASTQ minimal (2 lecturas)\ncat &gt; reads.fastq &lt;&lt;'FQ'\n@SEQ_ID_1\nACGTTTCCCGGAA\n+\nFFF:::FFFFF::\n@SEQ_ID_2\nNNNNACGTACGTN\n+\n!!''(((****))\nFQ\n\n# 3) CSV simple (expresión)\ncat &gt; expr.csv &lt;&lt;'CSV'\ngene,sample,counts\ngeneA,S1,12\ngeneA,S2,3\ngeneB,S1,0\ngeneB,S2,27\ngeneC,S1,8\ngeneC,S2,8\nCSV\n\n# 4) Log con fechas\ncat &gt; app.log &lt;&lt;'LOG'\n2025-08-01 10:00:01 INFO start pipeline\n2025-08-01 10:00:02 WARN low memory\n2025-08-01 10:00:03 ERROR read failed on sample S1\n2025-08-01 10:01:01 INFO retry sample S1\n2025-08-01 10:02:10 INFO done\nLOG",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html#grep-encontrar-líneas-que-coinciden-con-un-patrón",
+    "href": "chapters/text_tools.html#grep-encontrar-líneas-que-coinciden-con-un-patrón",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "1) grep: encontrar líneas que coinciden con un patrón",
+    "text": "1) grep: encontrar líneas que coinciden con un patrón\nSintaxis básica:\ngrep [opciones] 'patrón' archivo(s)\n1.1 Búsquedas simples\n# Buscar \"geneA\" en FASTA\ngrep 'geneA' genes.fasta\n\n# Insensible a mayúsculas/minúsculas\ngrep -i 'zeA' genes.fasta\n\n# Solo nombre de archivo con coincidencias\ngrep -l 'gene' *.fasta\n1.2 Mostrar contexto y número de línea\n# Número de línea (-n) y coincidencia resaltada (--color)\ngrep -n --color 'INFO' app.log\n\n# Contexto: 1 línea antes y 2 después\ngrep -n -C2 'ERROR' app.log\n\n# Solo antes (-B) o solo después (-A)\ngrep -n -B1 'WARN' app.log\n1.3 Contar coincidencias y ver solo el match\n# Contar líneas que contienen 'geneA'\ngrep -c 'geneA' genes.fasta\n\n# Mostrar solo la parte que coincide (-o)\ngrep -o 'gene[A-Z]' genes.fasta\n1.4 Búsqueda recursiva y exclusiones\n# Recursivo en subcarpetas\ngrep -R 'sample' .\n\n# Excluir rutas por patrón\ngrep -R --exclude='*.fastq' 'gene' .\n1.5 Expresiones regulares útiles (grep -E / -P)\n# grep -E (ERE): alternancia con '|'\ngrep -E 'geneA|geneB' genes.fasta\n\n# grep -E con anclas: encabezados FASTA (líneas que empiezan por '&gt;')\ngrep -E '^&gt;' genes.fasta\n\n# grep -P (PCRE) para patrones más avanzados (si tu grep lo soporta)\ngrep -Pn '^\\d{4}-\\d{2}-\\d{2}.*(ERROR|WARN)' app.log\n1.6 Búsqueda en .gz sin descomprimir\n# zgrep funciona como grep pero sobre .gz\ngzip -c app.log &gt; app.log.gz\nzgrep 'ERROR' app.log.gz\nTip: Para búsquedas masivas y veloces, considera ripgrep (rg). Ejemplo: rg 'ERROR' -n .",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html#sed-filtrar-y-sustituir-texto-en-flujo",
+    "href": "chapters/text_tools.html#sed-filtrar-y-sustituir-texto-en-flujo",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "2) sed: filtrar y sustituir texto en flujo",
+    "text": "2) sed: filtrar y sustituir texto en flujo\nsed edita streams de texto: sustituye, elimina o imprime selectivamente.\n\n2.1 Sustituciones básicas\n# Cambiar 'WARN' por 'WARNING' (solo pantalla)\nsed 's/WARN/WARNING/' app.log\n\n# Edición in-place con respaldo\nsed -i.bak 's/INFO/INFORMATION/' app.log\n2.2 Eliminar o conservar líneas por patrón\n# Eliminar líneas que contienen 'retry'\nsed '/retry/d' app.log\n\n# Quedarse solo con encabezados FASTA\nsed -n '/^&gt;/p' genes.fasta\n2.3 Cambios por columnas (CSV sencillo)\n# Reemplazar comas por tabs (vista rápida tipo TSV)\nsed 's/,/\\t/g' expr.csv | column -t",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
     ]
   }
 ]
