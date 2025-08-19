@@ -34,7 +34,7 @@
     "href": "index.html#estructura-inicial",
     "title": "Notas de Bash y Linux",
     "section": "Estructura inicial",
-    "text": "Estructura inicial\n\nTerminal y sistema de archivos",
+    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
     ]
@@ -84,7 +84,67 @@
     "href": "chapters/redirections_pipes.html",
     "title": "Redirecciones y pipes",
     "section": "",
-    "text": "Flujos estándar\n\nEn Linux, cada comando trabaja con tres flujos estándar:\nstdin (0): entrada estándar (información que recibe el comando)\nstdout (1): salida estándar (información normal que produce)\nstderr (2): salida de errores (mensajes de error)\n\nRedirecciones de salida\n\nPermiten enviar la salida a un archivo o combinar salidas.\ncomando &gt; salida.txt       # stdout a un archivo (sobrescribe)\ncomando &gt;&gt; salida.txt      # stdout a un archivo (agrega al final)\ncomando 2&gt; errores.txt     # stderr a un archivo\ncomando &&gt; todo.txt        # stdout y stderr al mismo archivo\ncomando &gt; salida.txt 2&gt;&1  # forma POSIX para combinar stdout y stderr\n\nEjemplo práctico de 2&gt;&1\nCreamos un archivo de prueba:\necho \"archivo de prueba\" &gt; archivo1.txt\nSin `2&gt;&1`:\nls archivo1.txt archivo_que_no_existe &gt; salida.txt\ncat salida.txt\n# Muestra:\n# archivo1.txt\nEn la terminal verás:\nls: cannot access 'archivo_que_no_existe': No such file or directory\nCon `2&gt;&1`:\nls archivo1.txt archivo_que_no_existe &gt; salida.txt 2&gt;&1\ncat salida.txt\n# Muestra:\n# archivo1.txt\n# ls: cannot access 'archivo_que_no_existe': No such file or director",
+    "text": "Ejemplo práctico de 2&gt;&1\nEn Linux, cada comando trabaja con tres flujos estándar:\nstdin (0): entrada estándar (información que recibe el comando)\nstdout (1): salida estándar (información normal que produce)\nstderr (2): salida de errores (mensajes de error)\nPermiten enviar la salida a un archivo o combinar salidas.\nCreamos un archivo de prueba:\nSin 2&gt;&1:\nEn la terminal verás:\nCon 2&gt;&1:**",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html#redirecciones-de-entrada",
+    "href": "chapters/redirections_pipes.html#redirecciones-de-entrada",
+    "title": "Redirecciones y pipes",
+    "section": "3. Redirecciones de entrada",
+    "text": "3. Redirecciones de entrada\nCuando un comando necesita información, puedes escribirla a mano, pero normalmente se la das desde un archivo o un bloque de texto.\nEjemplo con archivo:\necho -e \"Carlos\\nAna\\nLuis\" &gt; nombres.txt\nsort &lt; nombres.txt\n# Ana\n# Carlos\n# Luis\nAquí sort recibe los nombres como si los hubieras escrito línea por línea.\n\nHere-string (&lt;&lt;&lt;)\nSirve para pasar una cadena corta directamente como entrada:\ntr '[:lower:]' '[:upper:]' &lt;&lt;&lt; \"hola mundo\"\n# HOLA MUNDO\nEl comando tr en Linux significa translate (traducir) o transliterate.\nSirve para reemplazar, eliminar o comprimir caracteres en un texto que recibe por entrada estándar (stdin).\n\n\nHere-document (&lt;&lt;)\nSe usa para escribir varias líneas de entrada o incluso crear archivos:\ncat &lt;&lt;'EOF' &gt; script.sh\n#!/bin/bash\necho \"Hola desde here-doc\"\nEOF\nTodo lo que escribas entre &lt;&lt;EOF y EOF se manda al comando cat. Aquí se guardó en script.sh.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html#pipes",
+    "href": "chapters/redirections_pipes.html#pipes",
+    "title": "Redirecciones y pipes",
+    "section": "4. Pipes (|)",
+    "text": "4. Pipes (|)\nUn pipe conecta la salida de un comando con la entrada de otro.\nArchivo de ejemplo:\necho -e \"uno\\ndos\\ntres\" &gt; archivo.txt\n\ncat archivo.txt | grep \"dos\"\n# dos\nEn este caso cat manda las líneas a grep, que filtra solo la que contiene “dos”.\n\nEjemplo bioinformático\nUn archivo FASTQ tiene 4 líneas por cada lectura. Con paste - - - - agrupamos esas 4 líneas en una sola y luego contamos:\necho -e \"@read1\\nACGT\\n+\\n!!!!\\n@read2\\nTGCA\\n+\\n!!!!\" | paste - - - - | wc -l\n# 2\n\n\nPipefail\nPor defecto, el estado de salida de un pipeline es el del último comando. Si quieres que falle si cualquier parte falla:\nset -o pipefail",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html#tee-ver-y-guardar-a-la-vez",
+    "href": "chapters/redirections_pipes.html#tee-ver-y-guardar-a-la-vez",
+    "title": "Redirecciones y pipes",
+    "section": "5. tee: ver y guardar a la vez",
+    "text": "5. tee: ver y guardar a la vez\nA veces quieres guardar la salida en un archivo pero también verla en pantalla. Para eso está tee.\necho -e \"linea1\\nlinea2\" | tee lista.txt\n# linea1\n# linea2\ncat lista.txt\n# linea1\n# linea2\nPara añadir sin borrar lo previo:\necho \"linea3\" | tee -a lista.txt",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html#sustitución-de-procesos",
+    "href": "chapters/redirections_pipes.html#sustitución-de-procesos",
+    "title": "Redirecciones y pipes",
+    "section": "6. Sustitución de procesos <( )",
+    "text": "6. Sustitución de procesos &lt;( )\nPermite pasar la salida de un comando como si fuera un archivo.\nCreamos archivos:\necho -e \"a\\nb\\nc\" &gt; lista1.txt\necho -e \"b\\nc\\nd\" &gt; lista2.txt\nComparar intersección de dos listas:\ncomm -12 &lt;(sort lista1.txt) &lt;(sort lista2.txt)\n# b\n# c\nAquí sort lista1.txt y sort lista2.txt se ejecutan y sus resultados se tratan como archivos temporales.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html#xargs-construir-comandos-desde-stdin",
+    "href": "chapters/redirections_pipes.html#xargs-construir-comandos-desde-stdin",
+    "title": "Redirecciones y pipes",
+    "section": "7. xargs: construir comandos desde stdin",
+    "text": "7. xargs: construir comandos desde stdin\nAlgunos programas no aceptan datos por stdin. xargs toma lo que le llega y lo convierte en argumentos de otro comando.\necho -e \"archivo1.txt\\narchivo2.txt\" | xargs -n1 echo Procesando\n# Procesando archivo1.txt\n# Procesando archivo2.txt\n\n-n1: ejecuta el comando con un argumento a la vez.\n-P4: permite correr varios comandos en paralelo (ej. 4 a la vez).\n\nEjemplo bioinformático:\nfind 00_raw -name '*.fastq.gz' | xargs -n1 -P4 gzip -t\nEsto verifica la integridad de varios archivos FASTQ en paralelo.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/redirections_pipes.html#buenas-prácticas",
+    "href": "chapters/redirections_pipes.html#buenas-prácticas",
+    "title": "Redirecciones y pipes",
+    "section": "8. Buenas prácticas",
+    "text": "8. Buenas prácticas\n\nUsa set -euo pipefail en scripts para atrapar errores.\nPrueba comandos con datos pequeños (head, tail) antes de correrlos en datos grandes.\nEvita espacios en nombres de archivos; si los hay, usa comillas.\nSepara stdout y stderr si necesitas depurar o guardar logs.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Redirecciones y pipes</span>"
     ]
