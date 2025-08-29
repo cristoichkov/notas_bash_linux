@@ -34,7 +34,7 @@
     "href": "index.html#estructura-inicial",
     "title": "Notas de Bash y Linux",
     "section": "Estructura inicial",
-    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes\nBúsqueda y filtrado de texto",
+    "text": "Estructura inicial\n\nTerminal y sistema de archivos\nRedirecciones y pipes\nBúsqueda y filtrado de texto\nSstructuras de control",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Notas de Bash y Linux</span>"
     ]
@@ -187,6 +187,66 @@
     "text": "2) sed: filtrar y sustituir texto en flujo\nsed edita streams de texto: sustituye, elimina o imprime selectivamente.\n\n2.1 Sustituciones básicas\n# Cambiar 'WARN' por 'WARNING' (solo pantalla)\nsed 's/WARN/WARNING/' app.log\n\n# Edición in-place con respaldo\nsed -i.bak 's/INFO/INFORMATION/' app.log\n2.2 Eliminar o conservar líneas por patrón\n# Eliminar líneas que contienen 'retry'\nsed '/retry/d' app.log\n\n# Quedarse solo con encabezados FASTA\nsed -n '/^&gt;/p' genes.fasta\n2.3 Cambios por columnas (CSV sencillo)\n# Reemplazar comas por tabs (vista rápida tipo TSV)\nsed 's/,/\\t/g' expr.csv | column -t",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html#awk-procesar-por-campos-y-hacer-cálculos",
+    "href": "chapters/text_tools.html#awk-procesar-por-campos-y-hacer-cálculos",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "3) awk: procesar por campos y hacer cálculos",
+    "text": "3) awk: procesar por campos y hacer cálculos\nawk opera bajo la forma patrón { acción }, leyendo línea por línea y separando en campos ($1, $2, …).\nPor defecto separa por espacios, pero podemos usar -F, para CSV o definir otro delimitador.\n\n3.1 Filtrado y columnas (CSV)\nMostrar gene y counts cuando sample == \"S2\":\nawk -F, 'NR&gt;1 && $2==\"S2\"{print $1, $3}' expr.csv\n\nF, → separador de campos = coma\nNR&gt;1 → ignora la cabecera\n$2==“S2” → condición sobre la segunda columna\nprint $1, $3 → imprime columna 1 y 3\n\n\n\n3.2 Resúmenes (sumas por clave)\nSuma de counts por gene:\nawk -F, 'NR&gt;1{sum[$1]+=$3} END{for(g in sum) print g, sum[g]}' expr.csv | sort\nsum[$1] guarda un acumulador por cada valor de gene.\n3.3 Conteos en logs\nNúmero de líneas con nivel ERROR en app.log:\nawk '/ERROR/{c++} END{print \"Total errores:\", c}' app.log\nMostrar solo fecha y mensaje de los WARN:\nawk '/WARN/{print $1, $2, $4, $5, $6}' app.log\n3.4 Longitud de secuencias FASTA\n(asumiendo que las secuencias están en una sola línea)\nawk '\n  /^&gt;/ { if (seq) { print id, length(seq); seq=\"\" } id=$0; next }\n  { seq=seq$0 }\n  END { if (seq) print id, length(seq) }\n' genes.fasta\n3.5 Porcentaje de GC en FASTA\nawk '\n  function gc(s){ gsub(/[^GCgc]/,\"\",s); return length(s) }\n  /^&gt;/ { \n    if (seq) { pct=100*gc(seq)/length(seq); printf \"%s\\t%.2f%%\\n\", id, pct; seq=\"\" }\n    id=$0; next \n  }\n  { seq=seq$0 }\n  END { if (seq) { pct=100*gc(seq)/length(seq); printf \"%s\\t%.2f%%\\n\", id, pct } }\n' genes.fasta\n3.6 Contar lecturas en FASTQ\nawk 'END{print NR/4, \"lecturas\"}' reads.fastq\n3.7 Promedio de calidad en FASTQ (simple)\nawk '\n  NR%4==1 { id=$0 }              # encabezado @SEQ_ID\n  NR%4==0 {                      # línea de calidad\n    sum=0; L=length($0)\n    for(i=1;i&lt;=L;i++){ sum+=ord(substr($0,i,1)) }\n    printf \"%s\\t%.2f\\n\", id, sum/L\n  }\n  function ord(c){ return index(\" !\\\"#$%&'\\''()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\", c)-1 }\n' reads.fastq",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html#find-y-xargs-localizar-archivos-y-operar-sobre-ellos",
+    "href": "chapters/text_tools.html#find-y-xargs-localizar-archivos-y-operar-sobre-ellos",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "4) find y xargs: localizar archivos y operar sobre ellos",
+    "text": "4) find y xargs: localizar archivos y operar sobre ellos\nCuando trabajamos con cientos de archivos, es esencial localizarlos y ejecutar operaciones en lote.\nEl comando find recorre directorios aplicando criterios de búsqueda, y se puede combinar con xargs o -exec para procesar resultados.\n\n4.1 Búsqueda por nombre, tipo y tiempo\nSintaxis general:\nfind [directorio] [criterios] [acciones]\nEjemplo 1: buscar archivos .log\nfind . -type f -name \"*.log\"\n\n. → buscar en el directorio actual.\n-type f → solo archivos (no carpetas).\n-name \"*.log\" → nombre que termina en .log.\n\nEjemplo 2: buscar archivos modificados en los últimos 7 días\nfind . -type f -mtime -7\n\n-mtime -7 → archivos con menos de 7 días desde la última modificación.\nSe pueden usar valores positivos (+7 = más de 7 días).\n\n\n\n4.2 Ejecutar acciones sobre los resultados\n\nOpción A: usando -exec\nContar líneas en cada archivo .fasta:\nfind . -type f -name \"*.fasta\" -exec wc -l {} \\;\n\n-exec comando {} \\; → ejecuta un comando por cada archivo encontrado.\n{} → se reemplaza con el nombre del archivo.\nwc -l → cuenta líneas.\n\n\n\nOpción B: usando xargs\nExtraer encabezados FASTA (&gt;) de todos los .fasta:\nfind . -type f -name \"*.fasta\" -print0 | xargs -0 grep -n '^&gt;'\n\n-print0 → imprime rutas terminadas en \\0 (útil si hay espacios).\nxargs -0 → lee esas rutas y las pasa como argumentos seguros.\ngrep -n '^&gt;' → busca líneas que comienzan con &gt; y muestra número de línea.\n\n📌 Tip HPC: xargs -P ejecuta comandos en paralelo. Ejemplo: xargs -P4 lanza 4 procesos simultáneos.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/text_tools.html#otras-utilidades-de-texto",
+    "href": "chapters/text_tools.html#otras-utilidades-de-texto",
+    "title": "Búsqueda y filtrado de texto",
+    "section": "5) Otras utilidades de texto",
+    "text": "5) Otras utilidades de texto\nLinux ofrece herramientas ligeras que complementan grep/sed/awk.\n\n5.1 cut: seleccionar columnas\nExtraer gene y counts de un CSV:\ncut -d, -f1,3 expr.csv | column -t -s,\n\n-d, → separador es coma.\n-f1,3 → mostrar columnas 1 y 3.\ncolumn -t -s, → alinea columnas para que se vea tabulado.\n\n\n\n5.2 sort y uniq: ordenar y contar valores únicos\nContar cuántas veces aparece cada gene en el CSV:\ncut -d, -f1 expr.csv | tail -n +2 | sort | uniq -c\n\ncut -d, -f1 → toma solo la primera columna.\ntail -n +2 → elimina encabezado (desde la línea 2).\nsort → ordena los genes.\nuniq -c → cuenta ocurrencias de cada valor.\n\n\n\n5.3 head y tail: ver principio o final de archivos\nhead -n 3 app.log   # primeras 3 líneas\ntail -n 2 app.log   # últimas 2 líneas\n\n\n5.4 wc: contar líneas, palabras o caracteres\nwc -l app.log       # número de líneas\nwc -w app.log       # número de palabras\nwc -c app.log       # número de caracteres (bytes)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Búsqueda y filtrado de texto</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/control_flow_statements.html",
+    "href": "chapters/control_flow_statements.html",
+    "title": "Estructuras de control",
+    "section": "",
+    "text": "1) Condiciones: if y pruebas [ ], [[ ]]\nEstructura general:\n1.1 Probar comandos\n1.2 Probar expresiones: [ ] vs [[ ]] Usa [[ … ]] (Bash) cuando puedas: mejor con patrones, evita problemas de globbing/espacios.\nOperadores comunes:\nCadenas: =, !=, -z (vacía), -n (no vacía)\nNúmeros:\nEjemplo:\n1.3 Operadores lógicos\nEn Bash puedes combinar condiciones con && (AND) y || (OR).\nExplicación:",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estructuras de control</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/control_flow_statements.html#condiciones-if-y-pruebas",
+    "href": "chapters/control_flow_statements.html#condiciones-if-y-pruebas",
+    "title": "Estructuras de control",
+    "section": "",
+    "text": "if comando_o_condicion; then\n# caso verdadero\nelif otra_condicion; then\n# segundo caso\nelse\n# caso por defecto\nfi\n\nif grep -q \"^&gt;\" genes.fasta; then\necho \"Parece un FASTA válido\"\nelse\necho \"No veo encabezados FASTA (líneas con &gt;)\"\nfi\n\n\n\n\n\neq → igual a (== numérico)\nne → distinto de\nlt → menor que\nle → menor o igual que\ngt → mayor que\nge → mayor o igual que\n\n\nx=12\nif [[ \"$x\" -gt 10 ]]; then\necho \"x es mayor a 10\"\nfi\n\n\nif [[ \"$x\" -gt 10 && \"$y\" -le 5 ]] || [[ -n \"${FLAG:-}\" ]]; then\necho \"Se cumple (x&gt;10 Y y&lt;=5) O la variable FLAG no está vacía\"\nfi\n\n\n[[ \"$x\" -gt 10 && \"$y\" -le 5 ]]: ambas condiciones deben cumplirse (AND).\n[[ -n \"${FLAG:-}\" ]]: la variable FLAG no es vacía. ${FLAG:-} evita error si FLAG no existe.\n|| significa OR, basta que uno de los dos bloques sea verdadero.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estructuras de control</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/control_flow_statements.html#bucles-for-while-until",
+    "href": "chapters/control_flow_statements.html#bucles-for-while-until",
+    "title": "Estructuras de control",
+    "section": "2) Bucles for, while, until",
+    "text": "2) Bucles for, while, until\n2.1 for: recorrer listas\nForma 1 (lista explícita):\nfor n in 1 2 3; do\necho \"Iteración $n\"\ndone\nForma 2 (expansión aritmética):\nfor ((i=1; i&lt;=5; i++)); do\necho \"i=$i\"\ndone\n\n(()) se usa para operaciones aritméticas.\ni=1 valor inicial.\ni&lt;=5 condición de fin.\ni++ incremento en cada vuelta.\n\nForma 3 (sobre archivos):\nshopt -s nullglob\nfor f in *.fastq.gz; do\necho \"Archivo: $f\"\ndone\n2.2 while read (patrón robusto para listas grandes y espacios)\nfind datos -type f -name \"*.fastq.gz\" -print0 | while IFS= read -r -d '' fq; do\necho \"Procesando: $fq\"\nzcat -- \"$fq\" | awk 'END{print NR/4}'\ndone\n2.3 while y until con condiciones\nx=0\nwhile (( x &lt; 3 )); do\necho \"x=$x\"; ((x++))\ndone\n\n\nuntil [[ -f salida.txt ]]; do\necho \"Esperando salida.txt...\"; sleep 1\n((++i&gt;10)) && { echo \"Timeout\"; break; }\ndone\n3) case: múltiples ramas con patrones\next=${1##*.}\ncase \"$ext\" in\nfasta|fa) echo \"FASTA\" ;;\nfastq|fq) echo \"FASTQ\" ;;\ngz) echo \"GZIP\" ;;\n*) echo \"Desconocido\" ;;\nesac\n4) Funciones reutilizables y retorno de errores\ncontar(){\nlocal num=$1\nif [[ $num -lt 0 ]]; then\necho \"Número negativo\"; return 1\nelse\necho $((num*2))\nfi\n}\n\n\nres=$(contar 5)\necho \"Resultado: $res\"",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Estructuras de control</span>"
     ]
   }
 ]

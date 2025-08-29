@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Terminal y sistema de archivos – Notas de Bash y Linux</title>
+<title>Estructuras de control – Notas de Bash y Linux</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/redirections_pipes.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../chapters/text_tools.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -116,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/shell_basics.html"><span class="chapter-title">Terminal y sistema de archivos</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/control_flow_statements.html"><span class="chapter-title">Estructuras de control</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -148,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/shell_basics.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Terminal y sistema de archivos</span></a>
+  <a href="../chapters/shell_basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Terminal y sistema de archivos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -163,7 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/control_flow_statements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estructuras de control</span></a>
+  <a href="../chapters/control_flow_statements.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Estructuras de control</span></a>
   </div>
 </li>
     </ul>
@@ -176,16 +175,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#objetivos-de-aprendizaje" id="toc-objetivos-de-aprendizaje" class="nav-link active" data-scroll-target="#objetivos-de-aprendizaje">Objetivos de aprendizaje</a></li>
-  <li><a href="#terminal-shell-y-prompt" id="toc-terminal-shell-y-prompt" class="nav-link" data-scroll-target="#terminal-shell-y-prompt">Terminal, shell y prompt</a></li>
-  <li><a href="#sistema-de-archivos-en-linux" id="toc-sistema-de-archivos-en-linux" class="nav-link" data-scroll-target="#sistema-de-archivos-en-linux">Sistema de archivos en Linux</a>
-  <ul class="collapse">
-  <li><a href="#sistema-de-archivos-y-rutas" id="toc-sistema-de-archivos-y-rutas" class="nav-link" data-scroll-target="#sistema-de-archivos-y-rutas">Sistema de archivos y rutas</a></li>
-  <li><a href="#ruta-absoluta" id="toc-ruta-absoluta" class="nav-link" data-scroll-target="#ruta-absoluta">Ruta absoluta</a></li>
-  <li><a href="#ruta-relativa" id="toc-ruta-relativa" class="nav-link" data-scroll-target="#ruta-relativa">Ruta relativa</a></li>
-  </ul></li>
-  <li><a href="#comandos-principales" id="toc-comandos-principales" class="nav-link" data-scroll-target="#comandos-principales">Comandos principales</a></li>
-  <li><a href="#ejemplos-prácticos" id="toc-ejemplos-prácticos" class="nav-link" data-scroll-target="#ejemplos-prácticos">Ejemplos prácticos</a></li>
+  <li><a href="#condiciones-if-y-pruebas" id="toc-condiciones-if-y-pruebas" class="nav-link active" data-scroll-target="#condiciones-if-y-pruebas">1) Condiciones: <code>if</code> y pruebas <code>[ ]</code>, <code>[[ ]]</code></a></li>
+  <li><a href="#bucles-for-while-until" id="toc-bucles-for-while-until" class="nav-link" data-scroll-target="#bucles-for-while-until">2) Bucles <code>for</code>, <code>while</code>, <code>until</code></a></li>
   </ul>
 </nav>
     </div>
@@ -194,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Terminal y sistema de archivos</span></h1>
+<h1 class="title"><span class="chapter-title">Estructuras de control</span></h1>
 </div>
 
 
@@ -211,171 +202,110 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="objetivos-de-aprendizaje" class="level1">
-<h1>Objetivos de aprendizaje</h1>
-<p>Al finalizar, podrás:</p>
+<section id="condiciones-if-y-pruebas" class="level2">
+<h2 class="anchored" data-anchor-id="condiciones-if-y-pruebas">1) Condiciones: <code>if</code> y pruebas <code>[ ]</code>, <code>[[ ]]</code></h2>
+<p>Estructura general:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="ex">comando_o_condicion</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># caso verdadero</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="ex">otra_condicion</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># segundo caso</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># caso por defecto</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.1 Probar comandos</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="fu">grep</span> <span class="at">-q</span> <span class="st">"^&gt;"</span> genes.fasta<span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Parece un FASTA válido"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"No veo encabezados FASTA (líneas con &gt;)"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.2 Probar expresiones: <code>[ ]</code> vs <code>[[ ]]</code> Usa [[ … ]] (Bash) cuando puedas: mejor con patrones, evita problemas de globbing/espacios.</p>
+<p>Operadores comunes:</p>
+<p>Cadenas: =, !=, -z (vacía), -n (no vacía)</p>
+<p>Números:</p>
 <ul>
-<li><p>Diferenciar <strong>terminal</strong>, <strong>shell</strong> y <strong>prompt</strong>.</p></li>
-<li><p>Entender el <strong>sistema de archivos</strong> de Linux y sus rutas (absolutas vs.&nbsp;relativas).</p></li>
-<li><p>Navegar directorios y listar contenido con opciones útiles.</p></li>
-<li><p>Crear, copiar, mover, renombrar y eliminar archivos y directorios con seguridad.</p></li>
-<li><p>Usar el <strong>historial</strong>, <strong>autocompletado</strong> y <strong>comodines</strong> para trabajar más rápido.</p></li>
+<li><p>eq → igual a (== numérico)</p></li>
+<li><p>ne → distinto de</p></li>
+<li><p>lt → menor que</p></li>
+<li><p>le → menor o igual que</p></li>
+<li><p>gt → mayor que</p></li>
+<li><p>ge → mayor o igual que</p></li>
+</ul>
+<p>Ejemplo:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span><span class="op">=</span>12</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="st">"</span><span class="va">$x</span><span class="st">"</span> <span class="ot">-gt</span> 10 <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"x es mayor a 10"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>1.3 Operadores lógicos</p>
+<p>En Bash puedes combinar condiciones con <strong><code>&amp;&amp;</code></strong> (AND) y <strong><code>||</code></strong> (OR).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="st">"</span><span class="va">$x</span><span class="st">"</span> <span class="ot">-gt</span> 10 <span class="kw">&amp;&amp;</span> <span class="st">"</span><span class="va">$y</span><span class="st">"</span> <span class="ot">-le</span> 5 <span class="kw">]]</span> <span class="kw">||</span> <span class="kw">[[</span> <span class="ot">-n</span> <span class="st">"</span><span class="va">${FLAG</span><span class="op">:-</span><span class="va">}</span><span class="st">"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Se cumple (x&gt;10 Y y&lt;=5) O la variable FLAG no está vacía"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explicación:</p>
+<ul>
+<li><p><code>[[ "$x" -gt 10 &amp;&amp; "$y" -le 5 ]]</code>: ambas condiciones deben cumplirse (AND).</p></li>
+<li><p><code>[[ -n "${FLAG:-}" ]]</code>: la variable FLAG no es vacía. <code>${FLAG:-}</code> evita error si FLAG no existe.</p></li>
+<li><p><code>||</code> significa OR, basta que uno de los dos bloques sea verdadero.</p></li>
 </ul>
 </section>
-<section id="terminal-shell-y-prompt" class="level1">
-<h1>Terminal, shell y prompt</h1>
+<section id="bucles-for-while-until" class="level2">
+<h2 class="anchored" data-anchor-id="bucles-for-while-until">2) Bucles <code>for</code>, <code>while</code>, <code>until</code></h2>
+<p>2.1 <code>for</code>: recorrer listas</p>
+<p>Forma 1 (lista explícita):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> 1 2 3<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Iteración </span><span class="va">$n</span><span class="st">"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Forma 2 (expansión aritmética):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">((</span><span class="va">i</span><span class="op">=</span><span class="dv">1</span><span class="kw">;</span> <span class="va">i</span><span class="op">&lt;=</span><span class="dv">5</span><span class="kw">;</span> <span class="va">i</span><span class="op">++</span><span class="kw">));</span> <span class="cf">do</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"i=</span><span class="va">$i</span><span class="st">"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li><p><strong>Terminal</strong>: programa que abre una sesión interactiva (p.&nbsp;ej., <em>GNOME Terminal</em>, <em>Konsole</em>, <em>iTerm2</em>).</p></li>
-<li><p><strong>Shell</strong>: intérprete de comandos. Aquí usamos <strong>Bash</strong>.</p></li>
-<li><p><strong>Prompt</strong>: línea donde escribes comandos, suele mostrar usuario, host y carpeta actual. Ejemplo:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">usuario@equipo:~/proyecto$</span> _</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><code>(())</code> se usa para operaciones aritméticas.</p></li>
+<li><p><code>i=1</code> valor inicial.</p></li>
+<li><p><code>i&lt;=5</code> condición de fin.</p></li>
+<li><p><code>i++</code> incremento en cada vuelta.</p></li>
 </ul>
-</section>
-<section id="sistema-de-archivos-en-linux" class="level1">
-<h1>Sistema de archivos en Linux</h1>
-<ul>
-<li><p>Estructura en forma de <strong>árbol</strong> que comienza en la <strong>raíz</strong> <code>/</code>.</p></li>
-<li><p>Directorios comunes: <code>/home</code>, <code>/etc</code>, <code>/bin</code>, <code>/usr</code>, <code>/tmp</code>, <code>/var</code>.</p></li>
-<li><p>Tu carpeta personal suele ser <code>/home/tu_usuario</code> (también <code>~</code>).</p></li>
-</ul>
-<p>::: callout-note <strong>Atajos de ruta</strong><br>
-<code>~</code> = home del usuario actual<br>
-<code>~usuario</code> = home de <em>usuario</em><br>
-<code>.</code> = directorio actual<br>
-<code>..</code> = directorio padre :::</p>
-<section id="sistema-de-archivos-y-rutas" class="level2">
-<h2 class="anchored" data-anchor-id="sistema-de-archivos-y-rutas">Sistema de archivos y rutas</h2>
-<p>El sistema de archivos tiene estructura jerárquica en forma de árbol, comenzando desde la raíz <code>/</code> (Linux) o desde la unidad (Windows).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../images/shell_basics/folders.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="450"></p>
-</figure>
-</div>
-</section>
-<section id="ruta-absoluta" class="level2">
-<h2 class="anchored" data-anchor-id="ruta-absoluta">Ruta absoluta</h2>
-<p>Es la dirección completa desde la raíz del sistema.</p>
-<p><strong>Ejemplos (Windows)</strong>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">C:\Usuarios\MI_NOMBRE\Documentos\PROYECTO\BIN\script.R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Ejemplos (Linux)</strong>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/usuario/Documentos/PROYECTO/BIN/script.R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="ruta-relativa" class="level2">
-<h2 class="anchored" data-anchor-id="ruta-relativa">Ruta relativa</h2>
-<p>Es la dirección desde tu ubicación actual. Si estás en <code>/home/mi_nombre/Documentos/PROYECTO</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> META      <span class="co"># entrar a META</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> OUT/TABLAS  <span class="co"># ir a tablas.csv</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../DATA     <span class="co"># subir un nivel y entrar a DATA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="comandos-principales" class="level1">
-<h1>Comandos principales</h1>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Comando</th>
-<th>Descripción</th>
-<th>Ejemplo</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>pwd</code></td>
-<td>Muestra la ruta actual</td>
-<td><code>pwd</code> → <code>/home/usuario</code></td>
-</tr>
-<tr class="even">
-<td><code>ls</code></td>
-<td>Lista el contenido de un directorio</td>
-<td><code>ls -lh</code> (detallado, tamaños legibles)</td>
-</tr>
-<tr class="odd">
-<td><code>cd</code></td>
-<td>Cambia de directorio</td>
-<td><code>cd /home/usuario/Documentos</code></td>
-</tr>
-<tr class="even">
-<td><code>mkdir</code></td>
-<td>Crea directorios</td>
-<td><code>mkdir -p proyecto/data</code></td>
-</tr>
-<tr class="odd">
-<td><code>touch</code></td>
-<td>Crea archivos vacíos o actualiza su fecha</td>
-<td><code>touch notas.txt</code></td>
-</tr>
-<tr class="even">
-<td><code>cat</code></td>
-<td>Muestra el contenido de un archivo</td>
-<td><code>cat notas.txt</code></td>
-</tr>
-<tr class="odd">
-<td><code>head</code></td>
-<td>Muestra las primeras líneas de un archivo</td>
-<td><code>head -n 10 datos.csv</code></td>
-</tr>
-<tr class="even">
-<td><code>tail</code></td>
-<td>Muestra las últimas líneas de un archivo</td>
-<td><code>tail -n 20 log.txt</code></td>
-</tr>
-<tr class="odd">
-<td><code>less</code></td>
-<td>Muestra el archivo por páginas</td>
-<td><code>less datos.txt</code></td>
-</tr>
-<tr class="even">
-<td><code>cp</code></td>
-<td>Copia archivos o carpetas</td>
-<td><code>cp archivo.txt copia.txt</code></td>
-</tr>
-<tr class="odd">
-<td><code>mv</code></td>
-<td>Mueve o renombra archivos/carpetas</td>
-<td><code>mv viejo.txt nuevo.txt</code></td>
-</tr>
-<tr class="even">
-<td><code>rm</code></td>
-<td>Elimina archivos o carpetas</td>
-<td><code>rm -r carpeta</code></td>
-</tr>
-<tr class="odd">
-<td><code>history</code></td>
-<td>Muestra el historial de comandos</td>
-<td><code>history | grep ls</code></td>
-</tr>
-<tr class="even">
-<td><code>man</code></td>
-<td>Muestra el manual de un comando</td>
-<td><code>man ls</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="ejemplos-prácticos" class="level1">
-<h1>Ejemplos prácticos</h1>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear estructura de proyecto</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> proyecto/<span class="dt">{data</span><span class="op">,</span><span class="dt">results</span><span class="op">,</span><span class="dt">scripts</span><span class="op">,</span><span class="dt">docs}</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear varios archivos de prueba</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> proyecto/data/sample{1..3}.csv</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Listar con detalles</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-alh</span> proyecto/data</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mover y renombrar</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> proyecto/data/sample1.csv proyecto/results/sample_final.csv</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver contenido</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> proyecto/results/sample_final.csv</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminar interactivamente</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-i</span> proyecto/data/sample2.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Forma 3 (sobre archivos):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">shopt</span> <span class="at">-s</span> nullglob</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>.fastq.gz<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Archivo: </span><span class="va">$f</span><span class="st">"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>2.2 <code>while read</code> (patrón robusto para listas grandes y espacios)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> datos <span class="at">-type</span> f <span class="at">-name</span> <span class="st">"*.fastq.gz"</span> <span class="at">-print0</span> <span class="kw">|</span> <span class="cf">while</span> <span class="va">IFS</span><span class="op">=</span> <span class="bu">read</span> <span class="at">-r</span> <span class="at">-d</span> <span class="st">''</span> <span class="va">fq</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Procesando: </span><span class="va">$fq</span><span class="st">"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> <span class="at">--</span> <span class="st">"</span><span class="va">$fq</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'END{print NR/4}'</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>2.3 <code>while</code> y <code>until</code> con condiciones</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span><span class="op">=</span>0</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="kw">((</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="dv">3</span> <span class="kw">));</span> <span class="cf">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"x=</span><span class="va">$x</span><span class="st">"</span><span class="kw">;</span> <span class="kw">((</span><span class="va">x</span><span class="op">++</span><span class="kw">))</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">until</span> <span class="kw">[[</span> <span class="ot">-f</span> salida.txt <span class="kw">]];</span> <span class="cf">do</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Esperando salida.txt..."</span><span class="kw">;</span> <span class="fu">sleep</span> 1</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">((</span><span class="op">++</span><span class="va">i</span><span class="op">&gt;</span><span class="dv">10</span><span class="kw">))</span> <span class="kw">&amp;&amp;</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">"Timeout"</span><span class="kw">;</span> <span class="cf">break</span><span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>3) <code>case</code>: múltiples ramas con patrones</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">ext</span><span class="op">=</span><span class="va">${1</span><span class="op">##</span><span class="pp">*</span>.<span class="va">}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">"</span><span class="va">$ext</span><span class="st">"</span> <span class="kw">in</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ss">fasta</span><span class="kw">|</span><span class="ss">fa</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">"FASTA"</span> <span class="cf">;;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ss">fastq</span><span class="kw">|</span><span class="ss">fq</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">"FASTQ"</span> <span class="cf">;;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ss">gz</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">"GZIP"</span> <span class="cf">;;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="pp">*</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">"Desconocido"</span> <span class="cf">;;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">esac</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>4) Funciones reutilizables y retorno de errores</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contar()</span><span class="kw">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">local</span> <span class="va">num</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="va">$num</span> <span class="ot">-lt</span> 0 <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Número negativo"</span><span class="kw">;</span> <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$((num</span><span class="op">*</span><span class="dv">2</span><span class="va">))</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="va">res</span><span class="op">=</span><span class="va">$(</span><span class="ex">contar</span> 5<span class="va">)</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Resultado: </span><span class="va">$res</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -800,14 +730,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Notas de Bash y Linux">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Notas de Bash y Linux</span></span>
+      <a href="../chapters/text_tools.html" class="pagination-link" aria-label="Búsqueda y filtrado de texto">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Búsqueda y filtrado de texto</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/redirections_pipes.html" class="pagination-link" aria-label="Redirecciones y pipes">
-        <span class="nav-page-text"><span class="chapter-title">Redirecciones y pipes</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

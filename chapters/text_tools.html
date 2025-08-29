@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../chapters/control_flow_statements.html" rel="next">
 <link href="../chapters/redirections_pipes.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -160,6 +161,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <a href="../chapters/text_tools.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Búsqueda y filtrado de texto</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/control_flow_statements.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Estructuras de control</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -175,6 +181,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#preparación-datos-de-ejemplo-reproducible" id="toc-preparación-datos-de-ejemplo-reproducible" class="nav-link" data-scroll-target="#preparación-datos-de-ejemplo-reproducible">0) Preparación: datos de ejemplo (reproducible)</a></li>
   <li><a href="#grep-encontrar-líneas-que-coinciden-con-un-patrón" id="toc-grep-encontrar-líneas-que-coinciden-con-un-patrón" class="nav-link" data-scroll-target="#grep-encontrar-líneas-que-coinciden-con-un-patrón">1) grep: encontrar líneas que coinciden con un patrón</a></li>
   <li><a href="#sed-filtrar-y-sustituir-texto-en-flujo" id="toc-sed-filtrar-y-sustituir-texto-en-flujo" class="nav-link" data-scroll-target="#sed-filtrar-y-sustituir-texto-en-flujo">2) sed: filtrar y sustituir texto en flujo</a></li>
+  <li><a href="#awk-procesar-por-campos-y-hacer-cálculos" id="toc-awk-procesar-por-campos-y-hacer-cálculos" class="nav-link" data-scroll-target="#awk-procesar-por-campos-y-hacer-cálculos">3) awk: procesar por campos y hacer cálculos</a></li>
+  <li><a href="#find-y-xargs-localizar-archivos-y-operar-sobre-ellos" id="toc-find-y-xargs-localizar-archivos-y-operar-sobre-ellos" class="nav-link" data-scroll-target="#find-y-xargs-localizar-archivos-y-operar-sobre-ellos">4) find y xargs: localizar archivos y operar sobre ellos</a></li>
+  <li><a href="#otras-utilidades-de-texto" id="toc-otras-utilidades-de-texto" class="nav-link" data-scroll-target="#otras-utilidades-de-texto">5) Otras utilidades de texto</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -325,6 +334,145 @@ Esta sección presenta una guía práctica, con ejemplos <strong>reproducibles</
 <p>2.3 Cambios por columnas (CSV sencillo)</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reemplazar comas por tabs (vista rápida tipo TSV)</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/,/\t/g'</span> expr.csv <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="awk-procesar-por-campos-y-hacer-cálculos" class="level2">
+<h2 class="anchored" data-anchor-id="awk-procesar-por-campos-y-hacer-cálculos">3) awk: procesar por campos y hacer cálculos</h2>
+<p><code>awk</code> opera bajo la forma <strong>patrón { acción }</strong>, leyendo línea por línea y separando en <strong>campos</strong> (<code>$1</code>, <code>$2</code>, …).<br>
+Por defecto separa por espacios, pero podemos usar <code>-F,</code> para CSV o definir otro delimitador.</p>
+<section id="filtrado-y-columnas-csv" class="level3">
+<h3 class="anchored" data-anchor-id="filtrado-y-columnas-csv">3.1 Filtrado y columnas (CSV)</h3>
+<p>Mostrar <code>gene</code> y <code>counts</code> cuando <code>sample == "S2"</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">'NR&gt;1 &amp;&amp; $2=="S2"{print $1, $3}'</span> expr.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>F, → separador de campos = coma</p></li>
+<li><p>NR&gt;1 → ignora la cabecera</p></li>
+<li><p>$2==“S2” → condición sobre la segunda columna</p></li>
+<li><p>print $1, $3 → imprime columna 1 y 3</p></li>
+</ul>
+</section>
+<section id="resúmenes-sumas-por-clave" class="level3">
+<h3 class="anchored" data-anchor-id="resúmenes-sumas-por-clave">3.2 Resúmenes (sumas por clave)</h3>
+<p>Suma de <code>counts</code> por <code>gene</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">'NR&gt;1{sum[$1]+=$3} END{for(g in sum) print g, sum[g]}'</span> expr.csv <span class="kw">|</span> <span class="fu">sort</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>sum[$1]</code> guarda un acumulador por cada valor de <code>gene</code>.</p>
+<p>3.3 Conteos en logs</p>
+<p>Número de líneas con nivel <strong>ERROR</strong> en <code>app.log</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'/ERROR/{c++} END{print "Total errores:", c}'</span> app.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Mostrar solo fecha y mensaje de los <strong>WARN</strong>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'/WARN/{print $1, $2, $4, $5, $6}'</span> app.log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>3.4 Longitud de secuencias FASTA</p>
+<p>(asumiendo que las secuencias están en <strong>una sola línea</strong>)</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">  /^&gt;/ { if (seq) { print id, length(seq); seq="" } id=$0; next }</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">  { seq=seq$0 }</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">  END { if (seq) print id, length(seq) }</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> genes.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>3.5 Porcentaje de GC en FASTA</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">  function gc(s){ gsub(/[^GCgc]/,"",s); return length(s) }</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">  /^&gt;/ { </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">    if (seq) { pct=100*gc(seq)/length(seq); printf "%s\t%.2f%%\n", id, pct; seq="" }</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">    id=$0; next </span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">  { seq=seq$0 }</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">  END { if (seq) { pct=100*gc(seq)/length(seq); printf "%s\t%.2f%%\n", id, pct } }</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> genes.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>3.6 Contar lecturas en FASTQ</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'END{print NR/4, "lecturas"}'</span> reads.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>3.7 Promedio de calidad en FASTQ (simple)</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">  NR%4==1 { id=$0 }              # encabezado @SEQ_ID</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  NR%4==0 {                      # línea de calidad</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">    sum=0; L=length($0)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">    for(i=1;i&lt;=L;i++){ sum+=ord(substr($0,i,1)) }</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">    printf "%s\t%.2f\n", id, sum/L</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">  function ord(c){ return index(" !\"#$%&amp;'</span><span class="dt">\'</span><span class="st">'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", c)-1 }</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> reads.fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="find-y-xargs-localizar-archivos-y-operar-sobre-ellos" class="level2">
+<h2 class="anchored" data-anchor-id="find-y-xargs-localizar-archivos-y-operar-sobre-ellos">4) find y xargs: localizar archivos y operar sobre ellos</h2>
+<p>Cuando trabajamos con cientos de archivos, es esencial localizarlos y ejecutar operaciones en lote.<br>
+El comando <strong>find</strong> recorre directorios aplicando criterios de búsqueda, y se puede combinar con <strong>xargs</strong> o <code>-exec</code> para procesar resultados.</p>
+<section id="búsqueda-por-nombre-tipo-y-tiempo" class="level3">
+<h3 class="anchored" data-anchor-id="búsqueda-por-nombre-tipo-y-tiempo">4.1 Búsqueda por nombre, tipo y tiempo</h3>
+<p><strong>Sintaxis general:</strong></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="pp">[</span><span class="ss">directorio</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">criterios</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">acciones</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ejemplo 1: buscar archivos .log</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-type</span> f <span class="at">-name</span> <span class="st">"*.log"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><code>.</code> → buscar en el directorio actual.</p></li>
+<li><p><code>-type f</code> → solo archivos (no carpetas).</p></li>
+<li><p><code>-name "*.log"</code> → nombre que termina en <code>.log</code>.</p></li>
+</ul>
+<p>Ejemplo 2: buscar archivos modificados en los últimos 7 días</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-type</span> f <span class="at">-mtime</span> <span class="at">-7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><code>-mtime -7</code> → archivos con menos de 7 días desde la última modificación.</p></li>
+<li><p>Se pueden usar valores positivos (<code>+7</code> = más de 7 días).</p></li>
+</ul>
+</section>
+<section id="ejecutar-acciones-sobre-los-resultados" class="level3">
+<h3 class="anchored" data-anchor-id="ejecutar-acciones-sobre-los-resultados">4.2 Ejecutar acciones sobre los resultados</h3>
+<section id="opción-a-usando--exec" class="level4">
+<h4 class="anchored" data-anchor-id="opción-a-usando--exec">Opción A: usando <code>-exec</code></h4>
+<p>Contar líneas en cada archivo <code>.fasta</code>:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-type</span> f <span class="at">-name</span> <span class="st">"*.fasta"</span> <span class="at">-exec</span> wc <span class="at">-l</span> {} <span class="dt">\;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><code>-exec comando {} \;</code> → ejecuta un comando por cada archivo encontrado.</p></li>
+<li><p><code>{}</code> → se reemplaza con el nombre del archivo.</p></li>
+<li><p><code>wc -l</code> → cuenta líneas.</p></li>
+</ul>
+</section>
+<section id="opción-b-usando-xargs" class="level4">
+<h4 class="anchored" data-anchor-id="opción-b-usando-xargs">Opción B: usando <code>xargs</code></h4>
+<p>Extraer encabezados FASTA (<code>&gt;</code>) de todos los <code>.fasta</code>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-type</span> f <span class="at">-name</span> <span class="st">"*.fasta"</span> <span class="at">-print0</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-0</span> grep <span class="at">-n</span> <span class="st">'^&gt;'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><code>-print0</code> → imprime rutas terminadas en <code>\0</code> (útil si hay espacios).</p></li>
+<li><p><code>xargs -0</code> → lee esas rutas y las pasa como argumentos seguros.</p></li>
+<li><p><code>grep -n '^&gt;'</code> → busca líneas que comienzan con <code>&gt;</code> y muestra número de línea.</p></li>
+</ul>
+<p>📌 <strong>Tip HPC</strong>: <code>xargs -P</code> ejecuta comandos en paralelo. Ejemplo: <code>xargs -P4</code> lanza 4 procesos simultáneos.</p>
+</section>
+</section>
+</section>
+<section id="otras-utilidades-de-texto" class="level2">
+<h2 class="anchored" data-anchor-id="otras-utilidades-de-texto">5) Otras utilidades de texto</h2>
+<p>Linux ofrece herramientas ligeras que complementan <code>grep/sed/awk</code>.</p>
+<section id="cut-seleccionar-columnas" class="level3">
+<h3 class="anchored" data-anchor-id="cut-seleccionar-columnas">5.1 cut: seleccionar columnas</h3>
+<p>Extraer <code>gene</code> y <code>counts</code> de un CSV:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d,</span> <span class="at">-f1,3</span> expr.csv <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span> <span class="at">-s,</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><code>-d,</code> → separador es coma.</p></li>
+<li><p><code>-f1,3</code> → mostrar columnas 1 y 3.</p></li>
+<li><p><code>column -t -s,</code> → alinea columnas para que se vea tabulado.</p></li>
+</ul>
+</section>
+<section id="sort-y-uniq-ordenar-y-contar-valores-únicos" class="level3">
+<h3 class="anchored" data-anchor-id="sort-y-uniq-ordenar-y-contar-valores-únicos">5.2 sort y uniq: ordenar y contar valores únicos</h3>
+<p>Contar cuántas veces aparece cada <code>gene</code> en el CSV:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d,</span> <span class="at">-f1</span> expr.csv <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> +2 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><code>cut -d, -f1</code> → toma solo la primera columna.</p></li>
+<li><p><code>tail -n +2</code> → elimina encabezado (desde la línea 2).</p></li>
+<li><p><code>sort</code> → ordena los genes.</p></li>
+<li><p><code>uniq -c</code> → cuenta ocurrencias de cada valor.</p></li>
+</ul>
+</section>
+<section id="head-y-tail-ver-principio-o-final-de-archivos" class="level3">
+<h3 class="anchored" data-anchor-id="head-y-tail-ver-principio-o-final-de-archivos">5.3 head y tail: ver principio o final de archivos</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 3 app.log   <span class="co"># primeras 3 líneas</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 2 app.log   <span class="co"># últimas 2 líneas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="wc-contar-líneas-palabras-o-caracteres" class="level3">
+<h3 class="anchored" data-anchor-id="wc-contar-líneas-palabras-o-caracteres">5.4 wc: contar líneas, palabras o caracteres</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> app.log       <span class="co"># número de líneas</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-w</span> app.log       <span class="co"># número de palabras</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-c</span> app.log       <span class="co"># número de caracteres (bytes)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -756,6 +904,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/control_flow_statements.html" class="pagination-link" aria-label="Estructuras de control">
+        <span class="nav-page-text"><span class="chapter-title">Estructuras de control</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
